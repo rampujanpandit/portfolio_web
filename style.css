@@ -397,12 +397,12 @@ nav .fa-solid{
       background-position: center;
   }
   .header-text {
-      margin-top: 50%; /* Adjust as per your layout */
-      font-size: 16px;
-      text-align: center; /* Center text for better readability */
+      margin-top: 10%; /* Adjust as per your layout */
+      font-size: 12px;
+      text-align: left; /* Center text for better readability */
   }
   .header-text h1 {
-      font-size: 30px;
+      font-size: 25px;
   }
   nav .fa-solid {
       display: block;
