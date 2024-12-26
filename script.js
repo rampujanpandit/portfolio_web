@@ -41,6 +41,7 @@ navItems.forEach(item => {
 });
 
 
+
 const scriptURL = 'https://script.google.com/macros/s/AKfycbwmxlR4x03V9FSA0L6PGFJu9v-rusmw8Nk9ia5T3smLKrAS8tWORrZzsoML8TZKupUq/exec'
       const form = document.forms['submit-to-google-sheet']
       const msg = document.getElementById("msg")
