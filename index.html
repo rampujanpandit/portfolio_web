@@ -17,12 +17,12 @@
         <nav>
           <img src="logo.png" class="logo" alt="Logo" />
           <ul id="sidemenu">
-            <li><a href="#header">HOME</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#portfolio">Portfolio</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <i class="fa-solid fa-circle-xmark"></i>
+            <li><a href="#header"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="#about"><i class="fa-solid fa-user"></i> About</a></li>
+            <li><a href="#services"><i class="fa-solid fa-briefcase"></i> Services</a></li>
+            <li><a href="#portfolio"><i class="fa-solid fa-folder-open"></i> Portfolio</a></li>
+            <li><a href="#contact"><i class="fa-solid fa-paper-plane"></i> Contact</a></li>
+            <i class="fa-solid fa-xmark"></i>
           </ul>
           <i class="fa-solid fa-bars"></i>
         </nav>
@@ -43,61 +43,138 @@
         <div class="row">
           <div class="about-col-1">
             <img src="about.jpg" alt="About Me" />
+            <div class="about-stats">
+              <div class="stat-item">
+                <i class="fa-solid fa-briefcase"></i>
+                <h3>2+ Years</h3>
+                <p>Industry Experience</p>
+              </div>
+              <div class="stat-item">
+                <i class="fa-solid fa-code"></i>
+                <h3>Java & Spring</h3>
+                <p>Backend Mastery</p>
+              </div>
+              <div class="stat-item">
+                <i class="fa-solid fa-cloud"></i>
+                <h3>GCP & Linux</h3>
+                <p>Cloud Architecture</p>
+              </div>
+              <div class="stat-item">
+                <i class="fa-solid fa-server"></i>
+                <h3>REST APIs</h3>
+                <p>Scalable Services</p>
+              </div>
+            </div>
           </div>
           <div class="about-col-2">
             <h1 class="sub-title">About Me</h1>
-            <p>
-              A dynamic and innovative software engineer with 1.11 years of
-              hands-on experience in backend development, specializing in Java.
-              Passionate about crafting efficient, scalable solutions that drive
-              impactful results.
+            <p class="about-bio">
+              Results-driven <strong>Software Developer</strong> with <strong>2+ years of enterprise experience</strong> specializing in designing, architecting, and maintaining high-performance backend systems, microservices, and cloud infrastructures. Highly skilled in <strong>Java 17/21</strong>, <strong>Spring Boot</strong>, <strong>RESTful APIs</strong>, and <strong>Google Cloud Platform (GCP)</strong>.
             </p>
+            <p class="about-bio">
+              Passionate about building scalable enterprise software, optimizing relational databases, and automating Linux workflows. Known for clean code architecture, problem-solving, and delivering resilient solutions that drive business efficiency and system performance.
+            </p>
+            
             <div class="tab-titles">
-              <p class="tab-links active-link">Skills</p>
-              <p class="tab-links">Experience</p>
-              <p class="tab-links">Education</p>
+              <p class="tab-links active-link"><i class="fa-solid fa-layer-group"></i> Skills</p>
+              <p class="tab-links"><i class="fa-solid fa-business-time"></i> Experience</p>
+              <p class="tab-links"><i class="fa-solid fa-graduation-cap"></i> Education</p>
             </div>
+            
             <div class="tab-contents active-tab" id="skills">
-              <ul>
-                <li>
-                  <span>UI/UX</span><br />Proficient in HTML, CSS, and
-                  Angular js
-                </li>
-                <li>
-                  <span>Backend Development</span><br />Expert in Java, Spring
-                  Boot, Spring JDBC, JPA, Spring MVC, Hibernate, Servlets, JSP,
-                  RESTful APIs, Stream API, Maven, Git
-                </li>
-                <li>
-                  <span>Databases</span><br />Experienced with MySQL, SQL, SQL
-                  Server and MS-SQL
-                </li>
-              </ul>
+              <div class="skills-grid">
+                <div class="skill-category">
+                  <h3><i class="fa-solid fa-gears"></i> Backend Engineering</h3>
+                  <div class="skill-tags">
+                    <span class="skill-tag">Java 17/21</span>
+                    <span class="skill-tag">Spring Boot</span>
+                    <span class="skill-tag">Microservices</span>
+                    <span class="skill-tag">RESTful APIs</span>
+                    <span class="skill-tag">Spring Data JPA</span>
+                    <span class="skill-tag">Hibernate</span>
+                    <span class="skill-tag">Spring MVC</span>
+                    <span class="skill-tag">Maven</span>
+                  </div>
+                </div>
+                <div class="skill-category">
+                  <h3><i class="fa-solid fa-cloud-arrow-up"></i> Cloud & Infrastructure</h3>
+                  <div class="skill-tags">
+                    <span class="skill-tag">Google Cloud Platform (GCP)</span>
+                    <span class="skill-tag">Linux Server Admin</span>
+                    <span class="skill-tag">Shell Scripting</span>
+                    <span class="skill-tag">SSH & PuTTY</span>
+                    <span class="skill-tag">CI/CD Workflows</span>
+                  </div>
+                </div>
+                <div class="skill-category">
+                  <h3><i class="fa-solid fa-database"></i> Database Management</h3>
+                  <div class="skill-tags">
+                    <span class="skill-tag">MySQL</span>
+                    <span class="skill-tag">MS SQL Server</span>
+                    <span class="skill-tag">Schema Design</span>
+                    <span class="skill-tag">Query Optimization</span>
+                    <span class="skill-tag">Indexing</span>
+                  </div>
+                </div>
+                <div class="skill-category">
+                  <h3><i class="fa-solid fa-laptop-code"></i> Frontend & Tools</h3>
+                  <div class="skill-tags">
+                    <span class="skill-tag">HTML5 & CSS3</span>
+                    <span class="skill-tag">JavaScript (ES6+)</span>
+                    <span class="skill-tag">Angular</span>
+                    <span class="skill-tag">Git & GitHub</span>
+                    <span class="skill-tag">Postman</span>
+                  </div>
+                </div>
+              </div>
             </div>
+            
             <div class="tab-contents" id="experience">
-              <ul>
-                <li>
-                  <span>2023 - Current</span><br />Backend Developer at
-                  Pratikshat Solution LLP
-                </li>
-              </ul>
+              <div class="timeline">
+                <div class="timeline-item">
+                  <div class="timeline-date">Nov 2025 - Present</div>
+                  <h3 class="timeline-role">Software Developer</h3>
+                  <h4 class="timeline-company">Emerald Business Ventures Pvt Ltd</h4>
+                  <ul class="timeline-bullets">
+                    <li>Architecting and maintaining scalable production backend microservices using <strong>Java</strong> and <strong>Spring Boot</strong>.</li>
+                    <li>Managing cloud deployments, Linux servers, and server configurations on <strong>Google Cloud Platform (GCP)</strong>.</li>
+                    <li>Designing high-performance RESTful APIs with secure authentication and optimized response times.</li>
+                  </ul>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-date">2023 - Sep 2025</div>
+                  <h3 class="timeline-role">Backend Developer</h3>
+                  <h4 class="timeline-company">Pratikshat Solution LLP</h4>
+                  <ul class="timeline-bullets">
+                    <li>Engineered robust relational database schemas and optimized complex queries for <strong>MySQL</strong> & <strong>MS SQL Server</strong>.</li>
+                    <li>Implemented core business logic, Spring Data JPA repositories, and enterprise REST API endpoints.</li>
+                    <li>Automated backend routine tasks, system backups, and server management using Linux Shell scripts.</li>
+                  </ul>
+                </div>
+              </div>
             </div>
+            
             <div class="tab-contents" id="education">
-              <ul>
-                <li>
-                  <span>2018-2022</span><br />B.Tech in Information Technology -
-                  Bengal College of Engineering and Technology (BCET), Durgapur
-                  (WB)
-                </li>
-                <li>
-                  <span>2016-2018</span><br />Intermediate - RNP College,
-                  Pandaul, Madhubani(Bihar)
-                </li>
-                <li>
-                  <span>2015-2016</span><br />Matriculation - Indian Public
-                  School (IPS), Madhubani(Bihar)
-                </li>
-              </ul>
+              <div class="timeline">
+                <div class="timeline-item">
+                  <div class="timeline-date">2018 - 2022</div>
+                  <h3 class="timeline-role">B.Tech in Information Technology</h3>
+                  <h4 class="timeline-company">Bengal College of Engineering and Technology (BCET), Durgapur (WB)</h4>
+                  <p class="timeline-desc">Specialized in core computer science, software engineering principles, data structures, algorithms, and database management systems.</p>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-date">2016 - 2018</div>
+                  <h3 class="timeline-role">Intermediate (12th Grade - Science)</h3>
+                  <h4 class="timeline-company">RNP College, Pandaul, Madhubani (Bihar)</h4>
+                  <p class="timeline-desc">Focus on Mathematics, Physics, and Chemistry foundation.</p>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-date">2015 - 2016</div>
+                  <h3 class="timeline-role">Matriculation (10th Grade)</h3>
+                  <h4 class="timeline-company">Indian Public School (IPS), Madhubani (Bihar)</h4>
+                  <p class="timeline-desc">General Science and Mathematics stream with distinction.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -113,39 +190,33 @@
             <i class="fa-solid fa-code"></i>
             <h2>Backend Developer</h2>
             <p>
-              Passionate backend developer with a strong foundation in Java and
-              backend technologies, including Spring Boot, Hibernate, and
-              RESTful APIs. Skilled in building scalable and efficient solutions
-              with a focus on performance and reliability. Always eager to learn
-              and innovate to deliver impactful software solutions.
+              Architecting scalable Java 17+ & Spring Boot microservices, high-throughput RESTful APIs, and secure server systems.
             </p>
-            <a href="#">Learn More</a>
+            <a href="#contact"><i class="fa-solid fa-arrow-right"></i> Learn More</a>
           </div>
           <div>
-            <i class="fa-brands fa-app-store"></i>
-            <h2>Front-end Developer</h2>
+            <i class="fa-solid fa-cloud"></i>
+            <h2>Cloud & DevOps</h2>
             <p>
-              Creative and detail-oriented front-end developer with proficiency
-              in HTML, CSS, and Angular. Passionate about building responsive
-              and user-friendly interfaces that deliver seamless experiences
-              across all devices. Focused on bringing design concepts to life
-              while ensuring optimal performance and accessibility.
+              Managing Google Cloud Platform (GCP) enterprise workloads, Linux server administration, and automated shell deployment pipelines.
             </p>
-            <a href="#">Learn More</a>
+            <a href="#contact"><i class="fa-solid fa-arrow-right"></i> Learn More</a>
           </div>
-
           <div>
-            <i class="fa-solid fa-crop"></i>
+            <i class="fa-solid fa-database"></i>
             <h2>Database Management</h2>
             <p>
-              Experienced in managing and optimizing databases with a strong
-              focus on MySQL, SQL,SQL Server and MS-SQL. Skilled in data
-              modeling, query optimization, and ensuring data integrity to
-              support seamless application performance and scalability.
-              Committed to delivering robust, efficient database solutions for
-              complex systems.
+              Designing relational schemas, query optimization, indexing, and data security for MySQL & MS SQL Server.
             </p>
-            <a href="#">Learn More</a>
+            <a href="#contact"><i class="fa-solid fa-arrow-right"></i> Learn More</a>
+          </div>
+          <div>
+            <i class="fa-solid fa-laptop-code"></i>
+            <h2>Frontend Developer</h2>
+            <p>
+              Building responsive, user-friendly frontend web applications using HTML5, CSS3, JavaScript, and Angular frameworks.
+            </p>
+            <a href="#contact"><i class="fa-solid fa-arrow-right"></i> Learn More</a>
           </div>
         </div>
       </div>
@@ -157,96 +228,160 @@
         <h1 class="sub-title">My Work</h1>
         <div class="work-list">
           <div class="work">
-            <img src="working.png" alt="Work 1" />
-            <h3>Portfolio</h3>
+            <img src="working.png" alt="Portfolio Project" />
+            <h3>Portfolio Website</h3>
             <p>
-              Explore my work, projects, and skills through my personal
-              portfolio. A showcase of my journey as a developer, including
-              front-end, back-end, and database management expertise.
+              A responsive personal portfolio showcasing my software development journey, projects, and backend expertise.
             </p>
-            <a href="https://rampujanpandit.github.io/portfolio_web/"><i class="fa-solid fa-link"></i> Learn More</a>
+            <a href="https://rampujanpandit.github.io/portfolio_web/" target="_blank"><i class="fa-solid fa-link"></i> Learn More</a>
           </div>
           <div class="work">
-            <img src="file.png" alt="Work 1" />
+            <img src="file.png" alt="PDF Reader Project" />
             <h3>PDF Reader Backend</h3>
             <p>
-              This is a scalable PDF reader backend built with Java 17, Spring Boot, and MySQL. It allows users to upload, store, and view PDFs, while managing metadata securely. The application supports role-based access and features search and filter capabilities for easy PDF management.
+              Scalable Java 17 & Spring Boot backend with MySQL for secure PDF uploading, metadata storage, and role-based access.
             </p>
-            <a href="https://github.com/rampujanpandit/pdf_Reader.git"><i class="fa-solid fa-link"></i> Learn More</a>
+            <a href="https://github.com/rampujanpandit/pdf_Reader.git" target="_blank"><i class="fa-solid fa-link"></i> Learn More</a>
+          </div>
+          <div class="work">
+            <img src="gym.png" alt="Gym Management Project" />
+            <h3>Gym Management System</h3>
+            <p>
+              Web app for gym operations featuring member registration, attendance tracking, payments, and workout scheduling.
+            </p>
+            <a href="https://github.com/rampujanpandit/pdf_Reader.git" target="_blank"><i class="fa-solid fa-link"></i> Learn More</a>
+          </div>
         </div>
-        <div class="work">
-          <img src="gym.png" alt="Work 1" />
-          <h3>Gym Management system</h3>
-          <p>
-            The Gym Management System is a web application designed to streamline gym operations 
-            and enhance user experiences. It provides features such as member registration, 
-            attendance tracking, payment management, and workout schedules, ensuring efficient 
-            management for gym owners and convenience for members.
-          </p>
-          <a href="https://github.com/rampujanpandit/pdf_Reader.git"><i class="fa-solid fa-link"></i> Learn More</a>
-      </div>
-        
-          <!-- Add more works as needed -->
-        </div>
-        <a href="#" class="btn">See More</a>
+        <a href="https://github.com/rampujanpandit" target="_blank" class="btn">See More</a>
       </div>
     </div>
 
     <!-- Contact Section -->
     <div id="contact">
       <div class="container">
-        <div class="row">
+        <h1 class="sub-title">Contact Me</h1>
+        <p class="contact-subtitle">
+          Have a project in mind, a technical query, or looking for a results-driven Software Developer? Let's connect!
+        </p>
+
+        <div class="contact-wrapper">
+          <!-- Left: Contact Cards & Resume -->
           <div class="contact-left">
-            <h1 class="sub-title">Contact Me</h1>
-            <p><i class="fa-solid fa-paper-plane"></i>rpp1508@gmail.com</p>
-            <p><i class="fa-solid fa-phone"></i>9113392885</p>
-            <div class="social-icons">
-              <a
-                href="https://www.facebook.com/rampujan.pandit.1/"
-                target="_blank"
-                ><i class="fa-brands fa-facebook"></i
-              ></a>
-              <a href="https://www.instagram.com/its_ram_4u/" target="_blank"
-                ><i class="fa-brands fa-instagram"></i
-              ></a>
-              <a
-                href="https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile"
-                target="_blank"
-                ><i class="fa-brands fa-linkedin"></i
-              ></a>
-              <a href="#"><i class="fa-brands fa-twitter"></i></a>
+            <div class="contact-cards">
+              <a href="mailto:rpp1508@gmail.com" class="contact-card">
+                <div class="contact-card-icon">
+                  <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="contact-card-info">
+                  <span>Email Me</span>
+                  <h4>rpp1508@gmail.com</h4>
+                </div>
+              </a>
+
+              <a href="tel:9113392885" class="contact-card">
+                <div class="contact-card-icon">
+                  <i class="fa-solid fa-phone"></i>
+                </div>
+                <div class="contact-card-info">
+                  <span>Call / WhatsApp</span>
+                  <h4>+91 9113392885</h4>
+                </div>
+              </a>
+
+              <div class="contact-card">
+                <div class="contact-card-icon">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div class="contact-card-info">
+                  <span>Location</span>
+                  <h4>Bengaluru, India</h4>
+                </div>
+              </div>
             </div>
+
             <a
               href="https://drive.google.com/file/d/1MBYkY-qhFyDPsbzaraZ-mZr42jY9S51U/view?usp=sharing"
               target="_blank"
               download
-              class="btn btn2"
-              >Download CV</a
+              class="btn cv-btn"
             >
+              <i class="fa-solid fa-file-arrow-down"></i> Download Resume
+            </a>
           </div>
+
+          <!-- Right: Interactive Contact Form -->
           <div class="contact-right">
-            <form name="submit-to-google-sheet">
-              <input type="text" name="Name" placeholder="Your Name" required />
-              <input
-                type="text"
-                name="Email"
-                placeholder="Your Email"
-                required
-              />
-              <textarea
-                name="Message"
-                rows="6"
-                placeholder="Your Message"
-              ></textarea>
-              <button type="submit" class="btn btn2">Submit</button>
-            </form>
-            <span id="msg"></span>
+            <div class="contact-form-card">
+              <h3>Send A Message</h3>
+              <form name="submit-to-google-sheet">
+                <div class="form-group">
+                  <input type="text" name="Name" placeholder="Your Name" required />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="email"
+                    name="Email"
+                    placeholder="Your Email Address"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    name="Subject"
+                    placeholder="Subject (e.g. Job Opportunity / Project Inquiry)"
+                  />
+                </div>
+                <div class="form-group">
+                  <textarea
+                    name="Message"
+                    rows="3"
+                    placeholder="Your Message..."
+                    required
+                  ></textarea>
+                </div>
+                <button type="submit" class="btn submit-btn">
+                  <span>Send Message</span> <i class="fa-solid fa-paper-plane"></i>
+                </button>
+              </form>
+              <span id="msg"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Icons Centered at Very Bottom of Contact Section -->
+        <div class="contact-social-bar">
+          <div class="social-icons">
+            <a
+              href="https://www.linkedin.com/in/rampujanpandit"
+              target="_blank"
+              title="LinkedIn"
+              ><i class="fa-brands fa-linkedin-in"></i
+            ></a>
+            <a
+              href="https://github.com/rampujanpandit"
+              target="_blank"
+              title="GitHub"
+              ><i class="fa-brands fa-github"></i
+            ></a>
+            <a
+              href="https://www.instagram.com/its_ram_4u/"
+              target="_blank"
+              title="Instagram"
+              ><i class="fa-brands fa-instagram"></i
+            ></a>
+            <a
+              href="https://www.facebook.com/rampujan.pandit.1/"
+              target="_blank"
+              title="Facebook"
+              ><i class="fa-brands fa-facebook-f"></i
+            ></a>
           </div>
         </div>
       </div>
     </div>
     <div class="copyright">
-      <p>&copy; Ram. Made in India</p>
+      <p>&copy; Ram Pujan Pandit. Built with Passion & Precision</p>
     </div>
 
     <script src="script.js"></script>
