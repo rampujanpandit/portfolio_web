@@ -3,7 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio</title>
+    <title>Ram Pujan Pandit | Software Developer & Backend Engineer (Java, Spring Boot, GCP)</title>
+    <meta
+      name="description"
+      content="Portfolio of Ram Pujan Pandit - Results-driven Software Developer & Backend Engineer specializing in Java 17/21, Spring Boot microservices, REST APIs, MySQL, and Google Cloud Platform (GCP)."
+    />
+    <meta name="keywords" content="Ram Pujan Pandit, Software Developer, Backend Developer, Java Engineer, Spring Boot, Microservices, GCP, Cloud Engineer, Portfolio" />
+    <meta name="author" content="Ram Pujan Pandit" />
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="canonical" href="https://rampujanpandit.github.io/portfolio_web/" />
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Ram Pujan Pandit | Software Developer & Backend Engineer" />
+    <meta property="og:description" content="Results-driven Software Developer specializing in Java, Spring Boot microservices, REST APIs, and Google Cloud Platform." />
+    <meta property="og:image" content="about.jpg" />
+    <meta property="og:url" content="https://rampujanpandit.github.io/portfolio_web/" />
+    <meta property="og:type" content="website" />
+
     <link rel="stylesheet" href="style.css" />
     <script
       src="https://kit.fontawesome.com/abd0ba6c39.js"
@@ -27,7 +43,7 @@
           <i class="fa-solid fa-bars"></i>
         </nav>
         <div class="header-text">
-          <p>Software Developer</p>
+          <p class="role-badge">I am a <span class="typing-text"></span></p>
           <h1>
             Hi, I'm <span>Ram Pujan Pandit</span>,<br />
             proudly from
@@ -42,11 +58,11 @@
       <div class="container">
         <div class="row">
           <div class="about-col-1">
-            <img src="about.jpg" alt="About Me" />
+            <img src="about.jpg" alt="About Ram Pujan Pandit" loading="lazy" />
             <div class="about-stats">
               <div class="stat-item">
                 <i class="fa-solid fa-briefcase"></i>
-                <h3>2+ Years</h3>
+                <h3>3.5+ Years</h3>
                 <p>Industry Experience</p>
               </div>
               <div class="stat-item">
@@ -69,7 +85,7 @@
           <div class="about-col-2">
             <h1 class="sub-title">About Me</h1>
             <p class="about-bio">
-              Results-driven <strong>Software Developer</strong> with <strong>2+ years of enterprise experience</strong> specializing in designing, architecting, and maintaining high-performance backend systems, microservices, and cloud infrastructures. Highly skilled in <strong>Java 17/21</strong>, <strong>Spring Boot</strong>, <strong>RESTful APIs</strong>, and <strong>Google Cloud Platform (GCP)</strong>.
+              Results-driven <strong>Software Developer</strong> with <strong>3.5+ years of enterprise experience</strong> specializing in designing, architecting, and maintaining high-performance backend systems, microservices, and cloud infrastructures. Highly skilled in <strong>Java 17/21</strong>, <strong>Spring Boot</strong>, <strong>RESTful APIs</strong>, and <strong>Google Cloud Platform (GCP)</strong>.
             </p>
             <p class="about-bio">
               Passionate about building scalable enterprise software, optimizing relational databases, and automating Linux workflows. Known for clean code architecture, problem-solving, and delivering resilient solutions that drive business efficiency and system performance.
@@ -228,7 +244,7 @@
         <h1 class="sub-title">My Work</h1>
         <div class="work-list">
           <div class="work">
-            <img src="working.png" alt="Portfolio Project" />
+            <img src="working.png" alt="Portfolio Project" loading="lazy" />
             <h3>Portfolio Website</h3>
             <p>
               A responsive personal portfolio showcasing my software development journey, projects, and backend expertise.
@@ -236,7 +252,7 @@
             <a href="https://rampujanpandit.github.io/portfolio_web/" target="_blank"><i class="fa-solid fa-link"></i> Learn More</a>
           </div>
           <div class="work">
-            <img src="file.png" alt="PDF Reader Project" />
+            <img src="file.png" alt="PDF Reader Project" loading="lazy" />
             <h3>PDF Reader Backend</h3>
             <p>
               Scalable Java 17 & Spring Boot backend with MySQL for secure PDF uploading, metadata storage, and role-based access.
@@ -244,12 +260,12 @@
             <a href="https://github.com/rampujanpandit/pdf_Reader.git" target="_blank"><i class="fa-solid fa-link"></i> Learn More</a>
           </div>
           <div class="work">
-            <img src="gym.png" alt="Gym Management Project" />
+            <img src="gym.png" alt="Gym Management Project" loading="lazy" />
             <h3>Gym Management System</h3>
             <p>
               Web app for gym operations featuring member registration, attendance tracking, payments, and workout scheduling.
             </p>
-            <a href="https://github.com/rampujanpandit/pdf_Reader.git" target="_blank"><i class="fa-solid fa-link"></i> Learn More</a>
+            <a href="https://github.com/rampujanpandit" target="_blank"><i class="fa-solid fa-link"></i> Learn More</a>
           </div>
         </div>
         <a href="https://github.com/rampujanpandit" target="_blank" class="btn">See More</a>
@@ -340,7 +356,7 @@
                     required
                   ></textarea>
                 </div>
-                <button type="submit" class="btn submit-btn">
+                <button type="submit" class="btn submit-btn" id="submit-btn">
                   <span>Send Message</span> <i class="fa-solid fa-paper-plane"></i>
                 </button>
               </form>
@@ -383,6 +399,11 @@
     <div class="copyright">
       <p>&copy; Ram Pujan Pandit. Built with Passion & Precision</p>
     </div>
+
+    <!-- Floating Back-to-Top Button -->
+    <a href="#header" id="back-to-top" title="Back to Top" aria-label="Back to Top">
+      <i class="fa-solid fa-arrow-up"></i>
+    </a>
 
     <script src="script.js"></script>
   </body>
