@@ -630,19 +630,26 @@ nav .fa-circle-xmark:hover {
   flex-grow: 1;
 }
 
-.work a {
+.work a.work-btn {
   text-decoration: none;
   color: #fff;
-  font-size: 12.5px;
-  font-weight: 500;
-  background: #ff004f;
-  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(255, 0, 79, 0.12);
+  border: 1px solid #ff004f;
+  padding: 8px 18px;
   border-radius: 20px;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   transition: all 0.3s ease;
   margin-top: auto;
+}
+
+.work a.work-btn i {
+  font-size: 13.5px;
+  color: #ff004f;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .work:hover {
@@ -656,9 +663,16 @@ nav .fa-circle-xmark:hover {
   transform: scale(1.02);
 }
 
-.work a:hover {
-  background: #fff;
-  color: #ff004f;
+.work a.work-btn:hover {
+  background: #ff004f;
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(255, 0, 79, 0.4);
+  transform: translateY(-2px);
+}
+
+.work a.work-btn:hover i {
+  color: #fff;
+  transform: translateX(5px);
 }
 
 .btn {
