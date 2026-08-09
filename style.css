@@ -27,7 +27,7 @@ body {
   backdrop-filter: blur(4px);
   opacity: 0;
   visibility: hidden;
-  z-index: 99;
+  z-index: 999;
   transition: all 0.4s ease;
 }
 
@@ -62,7 +62,7 @@ nav {
   justify-content: space-between;
   padding: 15px 0;
   position: relative;
-  z-index: 10;
+  z-index: 1000;
 }
 
 .logo {
@@ -131,6 +131,26 @@ nav .fa-circle-xmark:hover {
   color: #ababab;
   font-weight: 400;
   letter-spacing: 1px;
+}
+
+.role-badge {
+  font-size: clamp(18px, 2.5vw, 26px);
+  color: #ababab;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.typing-text {
+  color: #ff004f;
+  font-weight: 600;
+  border-right: 2.5px solid #ff004f;
+  padding-right: 3px;
+  animation: blinkCursor 0.7s infinite;
+}
+
+@keyframes blinkCursor {
+  0%, 100% { border-color: #ff004f; }
+  50% { border-color: transparent; }
 }
 
 .header-text h1 {
@@ -967,24 +987,29 @@ form textarea:focus {
 
   nav .fa-bars {
     display: block;
-    font-size: 24px;
+    font-size: 26px;
     cursor: pointer;
+    color: #fff;
+    padding: 6px;
+    z-index: 1001;
   }
 
   nav ul {
-    background-color: #141414;
+    background-color: #121212;
     position: fixed;
     top: 0;
-    right: -280px;
-    width: 250px;
+    right: -100%;
+    width: 270px;
+    max-width: 80vw;
     height: 100vh;
-    padding: 65px 18px 30px;
-    z-index: 1000;
+    height: 100dvh;
+    padding: 70px 20px 30px;
+    z-index: 1005;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: -10px 0 35px rgba(0, 0, 0, 0.9);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.95);
     border-left: 1px solid #2a2a2a;
   }
 
@@ -1364,4 +1389,49 @@ form textarea:focus {
   .work-list {
     grid-template-columns: 1fr;
   }
+}
+
+/* Scroll Anchor Margin Offset */
+#about,
+#services,
+#portfolio,
+#contact {
+  scroll-margin-top: 60px;
+}
+
+/* Floating Back-to-Top Button */
+#back-to-top {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 44px;
+  height: 44px;
+  background: #ff004f;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  text-decoration: none;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(255, 0, 79, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+#back-to-top:hover {
+  background: #fff;
+  color: #ff004f;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
 }
