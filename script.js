@@ -1,6 +1,6 @@
 // Mobile Menu Toggle with Overlay & Scroll Control
 const mobileMenuToggle = document.querySelector(".fa-bars");
-const closeMenuToggle = document.querySelector(".fa-circle-xmark");
+const closeMenuToggle = document.querySelector(".fa-xmark, .fa-circle-xmark");
 const navLinks = document.querySelector("nav ul");
 const menuOverlay = document.getElementById("menu-overlay");
 
