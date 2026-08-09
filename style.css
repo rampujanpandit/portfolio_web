@@ -511,7 +511,7 @@ nav .fa-circle-xmark:hover {
   text-align: center;
 }
 
-.services-list div i {
+.services-list div .card-top-icon {
   font-size: 34px;
   margin-bottom: 14px;
   color: #ff004f;
@@ -533,19 +533,26 @@ nav .fa-circle-xmark:hover {
   flex-grow: 1;
 }
 
-.services-list div a {
+.services-list div a.service-btn {
   text-decoration: none;
   color: #fff;
-  font-size: 12.5px;
-  font-weight: 500;
-  background: #ff004f;
-  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(255, 0, 79, 0.12);
+  border: 1px solid #ff004f;
+  padding: 8px 18px;
   border-radius: 20px;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   transition: all 0.3s ease;
   margin-top: auto;
+}
+
+.services-list div a.service-btn i {
+  font-size: 13.5px;
+  color: #ff004f;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .services-list div:hover {
@@ -555,13 +562,20 @@ nav .fa-circle-xmark:hover {
   border-color: #ff004f;
 }
 
-.services-list div:hover i {
+.services-list div:hover .card-top-icon {
   transform: scale(1.1);
 }
 
-.services-list div a:hover {
-  background: #fff;
-  color: #ff004f;
+.services-list div a.service-btn:hover {
+  background: #ff004f;
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(255, 0, 79, 0.4);
+  transform: translateY(-2px);
+}
+
+.services-list div a.service-btn:hover i {
+  color: #fff;
+  transform: translateX(5px);
 }
 
 /* -----------------------Portfolio Section------------------------- */
