@@ -1,6 +1,6 @@
 // Mobile Menu Toggle with Overlay & Scroll Control
 const mobileMenuToggle = document.querySelector(".fa-bars");
-const closeMenuToggle = document.querySelector(".fa-xmark, .fa-circle-xmark");
+const closeMenuToggles = document.querySelectorAll(".fa-xmark, .fa-circle-xmark");
 const navLinks = document.querySelector("nav ul");
 const menuOverlay = document.getElementById("menu-overlay");
 
@@ -20,13 +20,55 @@ if (mobileMenuToggle) {
   mobileMenuToggle.addEventListener("click", openMenu);
 }
 
-if (closeMenuToggle) {
-  closeMenuToggle.addEventListener("click", closeMenu);
-}
+closeMenuToggles.forEach((btn) => {
+  btn.addEventListener("click", closeMenu);
+});
 
 if (menuOverlay) {
   menuOverlay.addEventListener("click", closeMenu);
 }
+
+// Dynamic Typing Animation Effect for Hero Section
+const typingElement = document.querySelector(".typing-text");
+const roles = [
+  "Software Developer",
+  "Backend Engineer (Java & Spring)",
+  "Cloud Infrastructure Specialist",
+  "Database & API Specialist"
+];
+let roleIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+
+function typeEffect() {
+  if (!typingElement) return;
+  const currentRole = roles[roleIndex];
+
+  if (isDeleting) {
+    typingElement.textContent = currentRole.substring(0, charIndex - 1);
+    charIndex--;
+  } else {
+    typingElement.textContent = currentRole.substring(0, charIndex + 1);
+    charIndex++;
+  }
+
+  let typeSpeed = isDeleting ? 40 : 80;
+
+  if (!isDeleting && charIndex === currentRole.length) {
+    typeSpeed = 2000; // Pause at full text
+    isDeleting = true;
+  } else if (isDeleting && charIndex === 0) {
+    isDeleting = false;
+    roleIndex = (roleIndex + 1) % roles.length;
+    typeSpeed = 400; // Pause before typing next role
+  }
+
+  setTimeout(typeEffect, typeSpeed);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (typingElement) typeEffect();
+});
 
 // Tabs in About Section
 const tabLinks = document.querySelectorAll(".tab-links");
@@ -60,25 +102,67 @@ navItems.forEach((item) => {
   });
 });
 
-// Contact Form Handler
+// Back-to-Top Floating Button Visibility & Smooth Scroll
+const backToTopBtn = document.getElementById("back-to-top");
+
+window.addEventListener("scroll", () => {
+  if (backToTopBtn) {
+    if (window.scrollY > 350) {
+      backToTopBtn.classList.add("visible");
+    } else {
+      backToTopBtn.classList.remove("visible");
+    }
+  }
+});
+
+if (backToTopBtn) {
+  backToTopBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+}
+
+// Contact Form Handler with Loading State
 const scriptURL =
   "https://script.google.com/macros/s/AKfycbwmxlR4x03V9FSA0L6PGFJu9v-rusmw8Nk9ia5T3smLKrAS8tWORrZzsoML8TZKupUq/exec";
 const form = document.forms["submit-to-google-sheet"];
 const msg = document.getElementById("msg");
+const submitBtn = document.getElementById("submit-btn");
 
 if (form) {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+
+    let originalBtnText = "";
+    if (submitBtn) {
+      originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = `<span>Sending...</span> <i class="fa-solid fa-spinner fa-spin"></i>`;
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = "0.7";
+    }
+
     fetch(scriptURL, { method: "POST", body: new FormData(form) })
       .then((response) => {
         if (msg) {
-          msg.innerHTML = "Message sent successfully :)";
+          msg.innerHTML = `<i class="fa-solid fa-circle-check"></i> Message sent successfully! I'll get back to you soon.`;
           setTimeout(function () {
             msg.innerHTML = "";
           }, 5000);
         }
         form.reset();
       })
-      .catch((error) => console.error("Error!", error.message));
+      .catch((error) => {
+        console.error("Error!", error.message);
+        if (msg) {
+          msg.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Error sending message. Please try again or email directly.`;
+        }
+      })
+      .finally(() => {
+        if (submitBtn) {
+          submitBtn.innerHTML = originalBtnText;
+          submitBtn.disabled = false;
+          submitBtn.style.opacity = "1";
+        }
+      });
   });
 }
