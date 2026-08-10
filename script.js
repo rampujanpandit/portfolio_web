@@ -33,6 +33,7 @@ const typingElement = document.querySelector(".typing-text");
 const roles = [
   "Software Developer",
   "Backend Engineer (Java & Spring)",
+  "Event-Driven Architect (RabbitMQ)",
   "Cloud Infrastructure Specialist",
   "Database & API Specialist"
 ];
@@ -239,5 +240,161 @@ window.addEventListener("keyup", (e) => {
     setTimeout(() => {
       document.body.style.filter = "none";
     }, 1500);
+  }
+});
+
+// ------------------------------------------------------------------
+// Portfolio Category Filtering & Architecture Modal Suite
+// ------------------------------------------------------------------
+
+// 1. Portfolio Category Filtering Logic
+const filterBtns = document.querySelectorAll(".filter-btn");
+const workCards = document.querySelectorAll(".work-list .work");
+
+filterBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    filterBtns.forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    const filter = btn.getAttribute("data-filter");
+
+    workCards.forEach((card) => {
+      const categories = card.getAttribute("data-category") || "";
+
+      if (filter === "all" || categories.includes(filter)) {
+        card.classList.remove("hidden-card");
+      } else {
+        card.classList.add("hidden-card");
+      }
+    });
+  });
+});
+
+// 2. Architecture Details Data & Modal Interactivity
+const archData = {
+  hrms: {
+    title: "Enterprise HRMS Platform Backend Architecture",
+    badge: "Production Backend",
+    problem: "Enterprise organizations needed a centralized Human Resource Management System for onboarding, GPS-context attendance tracking, leave regularization, shift rosters, and payroll engines with multi-role client access.",
+    solution: "Architected a multi-module Spring Boot backend leveraging Java 17, Spring Security with JWT + Role-Based Access Control (RBAC), standardized DTO responses, Swagger/OpenAPI documentation, and optimized MySQL schemas.",
+    keyPoints: [
+      "Designed and delivered 100+ secure RESTful API endpoints for employee onboarding, shift scheduling, leave approval matrices, and salary calculation pipelines.",
+      "Implemented JWT authentication with granular RBAC permissions for Admin, HR Manager, Employee, and Finance roles.",
+      "Integrated location-aware attendance check-in/check-out APIs with shift context and regularization request workflows.",
+      "Optimized relational database schema and JPA repository methods to eliminate N+1 queries during bulk payroll processing."
+    ],
+    tech: ["Java 17", "Spring Boot", "Spring Security", "JWT", "Spring Data JPA", "MySQL", "Swagger / OpenAPI", "REST APIs"]
+  },
+  prepaid: {
+    title: "Prepaid Card & Multi-Currency Wallet Platform Architecture",
+    badge: "Production Backend",
+    problem: "Financial operations required asynchronous approval pipelines for prepaid card lot generation, wallet loading, corporate merchant onboarding, and lifecycle management with third-party banking provider integrations.",
+    solution: "Engineered an event-driven microservices architecture using Spring Boot and RabbitMQ message queues for asynchronous approvals, bulk lot dispatch pipelines, wallet transaction ledgers, and centralized error handling.",
+    keyPoints: [
+      "Built asynchronous messaging pipelines with RabbitMQ for event notifications, approval workflows, and transaction state updates.",
+      "Designed secure APIs for bulk card lot generation (BIN configuration, lot assignment, dispatch requests, personalized card flows).",
+      "Created transactional wallet ledger microservice supporting real-time balance checks, credit/debit entries, and audit logging.",
+      "Integrated third-party banking and prepaid card issuer APIs with resilient fallback strategies and centralized exception handling."
+    ],
+    tech: ["Java 17", "Spring Boot", "RabbitMQ", "MySQL", "Spring Security", "JWT", "Third-Party Banking APIs", "Audit Logging"]
+  },
+  loans: {
+    title: "NBFC Loan Processing & Risk Management APIs Architecture",
+    badge: "Production Backend",
+    problem: "NBFC loan applicants needed a seamless mobile onboarding flow with OTP verification, instant eligibility calculation, and clear EMI breakdown schedules, alongside an internal admin ops console.",
+    solution: "Engineered secure financial loan processing services in Spring Boot with OTP-based session authentication, a flexible credit eligibility evaluation algorithm, and an EMI schedule calculator.",
+    keyPoints: [
+      "Developed an interactive EMI calculation engine computing principal vs interest breakdown across custom tenor periods.",
+      "Built mobile onboarding APIs featuring secure OTP verification and session token management.",
+      "Delivered NBFC Admin console APIs with module-level access control for operations teams to monitor loan portfolios.",
+      "Integrated MVVM Kotlin Android clients with Spring Boot backend repositories via Retrofit and standardized JSON payloads."
+    ],
+    tech: ["Java 17", "Spring Boot", "REST APIs", "OTP Auth", "MySQL", "Spring Data JPA", "Android Sync"]
+  },
+  fleet: {
+    title: "Expense & Fleet Management Suite Architecture",
+    badge: "Production Backend",
+    problem: "Corporate enterprises needed to streamline employee expense reimbursement claims with audit trails, while managing fleet vehicle allocations, fuel cards, and mileage tracking across business units.",
+    solution: "Developed modular microservices for corporate expense submission & approval pipelines, fleet card issuance, and mileage logging deployed on Google Cloud Platform (GCP).",
+    keyPoints: [
+      "Architected multi-tier expense approval engine supporting receipt attachments, audit trail logs, and reimbursement status tracking.",
+      "Built fleet management microservices tracking vehicle allocation, mileage logs, and fuel card transaction caps.",
+      "Optimized database query performance using SQL indexing and JPA query tuning for high-volume expense transaction tables.",
+      "Managed Linux server configurations and GCP Cloud deployments for high-availability backend services."
+    ],
+    tech: ["Java 17", "Spring Boot Microservices", "GCP", "Linux Admin", "SQL Optimization", "Docker", "REST APIs"]
+  }
+};
+
+const archModal = document.getElementById("arch-modal");
+const modalTitle = document.getElementById("modal-title");
+const modalBadge = document.getElementById("modal-badge");
+const modalBody = document.getElementById("modal-body");
+const modalCloseBtn = document.getElementById("modal-close-btn");
+const archBtns = document.querySelectorAll(".arch-btn");
+
+function openArchModal(projectId) {
+  const data = archData[projectId];
+  if (!data || !archModal) return;
+
+  if (modalTitle) modalTitle.textContent = data.title;
+  if (modalBadge) modalBadge.innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${data.badge}`;
+
+  let bodyHTML = `
+    <div class="arch-section">
+      <h4><i class="fa-solid fa-circle-exclamation"></i> Problem & Objective</h4>
+      <p>${data.problem}</p>
+    </div>
+    <div class="arch-section">
+      <h4><i class="fa-solid fa-lightbulb"></i> Backend Solution</h4>
+      <p>${data.solution}</p>
+    </div>
+    <div class="arch-section">
+      <h4><i class="fa-solid fa-list-check"></i> Key Engineering Accomplishments</h4>
+      <ul class="arch-bullets">
+        ${data.keyPoints.map(pt => `<li><i class="fa-solid fa-check"></i> <span>${pt}</span></li>`).join("")}
+      </ul>
+    </div>
+    <div class="arch-section">
+      <h4><i class="fa-solid fa-gears"></i> Core Technologies Used</h4>
+      <div class="arch-tech-grid">
+        ${data.tech.map(t => `<span>${t}</span>`).join("")}
+      </div>
+    </div>
+  `;
+
+  if (modalBody) modalBody.innerHTML = bodyHTML;
+
+  archModal.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeArchModal() {
+  if (archModal) archModal.classList.remove("active");
+  document.body.style.overflow = "auto";
+}
+
+archBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const projectId = btn.getAttribute("data-project");
+    openArchModal(projectId);
+  });
+});
+
+if (modalCloseBtn) {
+  modalCloseBtn.addEventListener("click", closeArchModal);
+}
+
+if (archModal) {
+  archModal.addEventListener("click", (e) => {
+    if (e.target === archModal) {
+      closeArchModal();
+    }
+  });
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && archModal && archModal.classList.contains("active")) {
+    closeArchModal();
   }
 });
