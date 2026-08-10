@@ -190,3 +190,54 @@ if (form) {
       });
   });
 }
+
+// ------------------------------------------------------------------
+// Anti-Copy & Security Protection Suite
+// ------------------------------------------------------------------
+
+// 1. Disable Right Click Context Menu
+document.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+});
+
+// 2. Disable Copy, Cut, and Dragging Content
+document.addEventListener("copy", (e) => {
+  e.preventDefault();
+});
+
+document.addEventListener("cut", (e) => {
+  e.preventDefault();
+});
+
+document.addEventListener("dragstart", (e) => {
+  e.preventDefault();
+});
+
+// 3. Disable Keyboard Copy & DevTools Shortcuts
+document.addEventListener("keydown", (e) => {
+  // Prevent Ctrl+C, Ctrl+U (View Source), Ctrl+S (Save), Ctrl+P (Print)
+  if (
+    (e.ctrlKey || e.metaKey) &&
+    ["c", "u", "s", "p", "a"].includes(e.key.toLowerCase())
+  ) {
+    e.preventDefault();
+  }
+
+  // Prevent F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C (Inspect Element / DevTools)
+  if (
+    e.key === "F12" ||
+    ((e.ctrlKey || e.metaKey) && e.shiftKey && ["I", "J", "C", "i", "j", "c"].includes(e.key))
+  ) {
+    e.preventDefault();
+  }
+});
+
+// 4. PrintScreen & Screenshot Protection Blur Effect
+window.addEventListener("keyup", (e) => {
+  if (e.key === "PrintScreen" || e.keyCode === 44) {
+    document.body.style.filter = "blur(20px)";
+    setTimeout(() => {
+      document.body.style.filter = "none";
+    }, 1500);
+  }
+});
