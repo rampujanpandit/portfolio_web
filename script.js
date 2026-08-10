@@ -398,3 +398,26 @@ document.addEventListener("keydown", (e) => {
     closeArchModal();
   }
 });
+
+// 3. 1-Click Copy to Clipboard Handler for Contact Cards
+const copyableCards = document.querySelectorAll(".copyable-card");
+const contactMsg = document.getElementById("msg");
+
+copyableCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    const textToCopy = card.getAttribute("data-copy");
+    if (!textToCopy) return;
+
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      if (contactMsg) {
+        contactMsg.innerHTML = `<i class="fa-solid fa-circle-check"></i> "${textToCopy}" copied to clipboard!`;
+        contactMsg.style.color = "#61b752";
+        setTimeout(() => {
+          contactMsg.innerHTML = "";
+        }, 3500);
+      }
+    }).catch(err => {
+      console.error("Copy failed", err);
+    });
+  });
+});
