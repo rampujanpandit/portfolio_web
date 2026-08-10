@@ -66,8 +66,32 @@ function typeEffect() {
   setTimeout(typeEffect, typeSpeed);
 }
 
+// Automatic Dynamic Experience Calculator (Career Start: Jan 2, 2023)
+function updateDynamicExperience() {
+  const careerStartDate = new Date("2023-01-02");
+  const today = new Date();
+  
+  // Calculate difference in years
+  const diffInMs = today - careerStartDate;
+  const totalYears = diffInMs / (1000 * 60 * 60 * 24 * 365.25);
+  
+  // Format to 1 decimal place (e.g. 3.6+ Years)
+  const formattedExp = totalYears.toFixed(1);
+
+  const expStatElement = document.getElementById("dynamic-exp-stat");
+  const expBioElement = document.getElementById("dynamic-exp-bio");
+
+  if (expStatElement) {
+    expStatElement.textContent = `${formattedExp}+ Years`;
+  }
+  if (expBioElement) {
+    expBioElement.textContent = `${formattedExp}+ years of enterprise experience`;
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   if (typingElement) typeEffect();
+  updateDynamicExperience();
 });
 
 // Tabs in About Section
