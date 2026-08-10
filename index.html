@@ -25,6 +25,44 @@
       src="https://kit.fontawesome.com/abd0ba6c39.js"
       crossorigin="anonymous"
     ></script>
+
+    <!-- Schema.org JSON-LD Structured Data for Google Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Ram Pujan Pandit",
+      "url": "https://rampujanpandit.github.io/portfolio_web/",
+      "email": "rpp1508@gmail.com",
+      "telephone": "+91-9113392885",
+      "jobTitle": "Software Developer & Backend Engineer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Emerald Business Ventures Pvt Ltd"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Delhi NCR",
+        "addressCountry": "IN"
+      },
+      "sameAs": [
+        "https://github.com/rampujanpandit",
+        "https://www.linkedin.com/in/rampujanpandit"
+      ],
+      "knowsAbout": [
+        "Java 17",
+        "Java 21",
+        "Spring Boot",
+        "RabbitMQ",
+        "Microservices",
+        "RESTful APIs",
+        "MySQL",
+        "Google Cloud Platform (GCP)",
+        "Linux Server Administration",
+        "JWT & RBAC Security"
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="menu-overlay"></div>
@@ -63,22 +101,32 @@
               <div class="stat-item">
                 <i class="fa-solid fa-briefcase"></i>
                 <h3 id="dynamic-exp-stat">3.6+ Years</h3>
-                <p>Industry Experience</p>
+                <p>Enterprise Exp.</p>
               </div>
               <div class="stat-item">
-                <i class="fa-solid fa-code"></i>
-                <h3>Java & Spring</h3>
-                <p>Backend Mastery</p>
+                <i class="fa-solid fa-server"></i>
+                <h3>100+ APIs</h3>
+                <p>RESTful Services</p>
+              </div>
+              <div class="stat-item">
+                <i class="fa-solid fa-cubes"></i>
+                <h3>4+ Platforms</h3>
+                <p>Production Apps</p>
+              </div>
+              <div class="stat-item">
+                <i class="fa-solid fa-bolt"></i>
+                <h3>RabbitMQ</h3>
+                <p>Event Queues</p>
               </div>
               <div class="stat-item">
                 <i class="fa-solid fa-cloud"></i>
                 <h3>GCP & Linux</h3>
-                <p>Cloud Architecture</p>
+                <p>Cloud Deployments</p>
               </div>
               <div class="stat-item">
-                <i class="fa-solid fa-server"></i>
-                <h3>REST APIs</h3>
-                <p>Scalable Services</p>
+                <i class="fa-solid fa-code"></i>
+                <h3>Java 17/21</h3>
+                <p>Spring Boot 3</p>
               </div>
             </div>
           </div>
@@ -153,9 +201,11 @@
                   <h3 class="timeline-role">Software Developer</h3>
                   <h4 class="timeline-company">Emerald Business Ventures Pvt Ltd</h4>
                   <ul class="timeline-bullets">
-                    <li>Architecting and maintaining scalable production backend microservices using <strong>Java</strong> and <strong>Spring Boot</strong>.</li>
-                    <li>Managing cloud deployments, Linux servers, and server configurations on <strong>Google Cloud Platform (GCP)</strong>.</li>
-                    <li>Designing high-performance RESTful APIs with secure authentication and optimized response times.</li>
+                    <li>Architected and delivered <strong>100+ production RESTful APIs</strong> supporting HRMS, Prepaid Card Management, NBFC Loans, Expense, Fleet, and Wallet microservices.</li>
+                    <li>Engineered <strong>event-driven asynchronous workflows using RabbitMQ</strong> for approval pipelines, transaction notifications, and bulk lot dispatching.</li>
+                    <li>Implemented multi-role <strong>JWT + Role-Based Access Control (RBAC)</strong> authentication, request validation, and centralized exception handling.</li>
+                    <li>Optimized relational database queries and JPA repositories for <strong>MySQL</strong> to handle high-throughput transaction spikes efficiently.</li>
+                    <li>Managed server configurations, Docker containers, and cloud deployments on <strong>Google Cloud Platform (GCP)</strong>.</li>
                   </ul>
                 </div>
                 <div class="timeline-item">
@@ -205,33 +255,41 @@
         <div class="services-list">
           <div>
             <i class="fa-solid fa-code card-top-icon"></i>
-            <h2>Backend Developer</h2>
+            <h2>Backend Engineering</h2>
             <p>
-              Architecting scalable Java 17+ & Spring Boot microservices, high-throughput RESTful APIs, and secure server systems.
+              Architecting scalable Java 17/21 & Spring Boot microservices, high-throughput RESTful APIs, and domain-driven backend systems.
+            </p>
+            <a href="#contact" class="service-btn"><span>Learn More</span> <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+          <div>
+            <i class="fa-solid fa-bolt card-top-icon"></i>
+            <h2>Event-Driven Systems</h2>
+            <p>
+              Designing asynchronous messaging topology with RabbitMQ for event notification pipelines, approval workflows, and decoupled services.
+            </p>
+            <a href="#contact" class="service-btn"><span>Learn More</span> <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+          <div>
+            <i class="fa-solid fa-shield-halved card-top-icon"></i>
+            <h2>Enterprise Security & Auth</h2>
+            <p>
+              Implementing JWT authentication, Role-Based Access Control (RBAC), API rate-limiting, and centralized audit logging.
             </p>
             <a href="#contact" class="service-btn"><span>Learn More</span> <i class="fa-solid fa-arrow-right"></i></a>
           </div>
           <div>
             <i class="fa-solid fa-cloud card-top-icon"></i>
-            <h2>Cloud & DevOps</h2>
+            <h2>Cloud & Infrastructure</h2>
             <p>
-              Managing Google Cloud Platform (GCP) enterprise workloads, Linux server administration, and automated shell deployment pipelines.
+              Managing Google Cloud Platform (GCP) enterprise workloads, Linux server administration, Docker, and shell script deployment automation.
             </p>
             <a href="#contact" class="service-btn"><span>Learn More</span> <i class="fa-solid fa-arrow-right"></i></a>
           </div>
           <div>
             <i class="fa-solid fa-database card-top-icon"></i>
-            <h2>Database Management</h2>
+            <h2>Database Optimization</h2>
             <p>
-              Designing relational schemas, query optimization, indexing, and data security for MySQL & MS SQL Server.
-            </p>
-            <a href="#contact" class="service-btn"><span>Learn More</span> <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-          <div>
-            <i class="fa-solid fa-laptop-code card-top-icon"></i>
-            <h2>Frontend Developer</h2>
-            <p>
-              Building responsive, user-friendly frontend web applications using HTML5, CSS3, JavaScript, and Angular frameworks.
+              Relational schema design, complex SQL query tuning, indexing strategies, and JPA performance optimization for MySQL.
             </p>
             <a href="#contact" class="service-btn"><span>Learn More</span> <i class="fa-solid fa-arrow-right"></i></a>
           </div>
