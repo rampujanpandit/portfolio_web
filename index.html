@@ -85,7 +85,7 @@
           <div class="about-col-2">
             <h1 class="sub-title">About Me</h1>
             <p class="about-bio">
-              Results-driven <strong>Software Developer</strong> with <strong id="dynamic-exp-bio">3.6+ years of enterprise experience</strong> specializing in designing, architecting, and maintaining high-performance backend systems, microservices, and cloud infrastructures. Highly skilled in <strong>Java 17/21</strong>, <strong>Spring Boot</strong>, <strong>RESTful APIs</strong>, and <strong>Google Cloud Platform (GCP)</strong>.
+              Results-driven <strong>Software Developer</strong> with <strong id="dynamic-exp-bio">3.6+ years of enterprise experience</strong> specializing in designing, architecting, and maintaining high-performance backend systems, event-driven microservices, and cloud infrastructures. Highly skilled in <strong>Java 17/21</strong>, <strong>Spring Boot</strong>, <strong>RabbitMQ</strong>, <strong>RESTful APIs</strong>, and <strong>Google Cloud Platform (GCP)</strong>.
             </p>
             <p class="about-bio">
               Passionate about building scalable enterprise software, optimizing relational databases, and automating Linux workflows. Known for clean code architecture, problem-solving, and delivering resilient solutions that drive business efficiency and system performance.
@@ -104,6 +104,7 @@
                   <div class="skill-tags">
                     <span class="skill-tag">Java 17/21</span>
                     <span class="skill-tag">Spring Boot</span>
+                    <span class="skill-tag">RabbitMQ</span>
                     <span class="skill-tag">Microservices</span>
                     <span class="skill-tag">RESTful APIs</span>
                     <span class="skill-tag">Spring Data JPA</span>
@@ -241,34 +242,234 @@
     <!-- Portfolio Section -->
     <div id="portfolio">
       <div class="container">
-        <h1 class="sub-title">My Work</h1>
-        <div class="work-list">
-          <div class="work">
-            <img src="working.png" alt="Portfolio Project" loading="lazy" />
-            <h3>Portfolio Website</h3>
-            <p>
-              A responsive personal portfolio showcasing my software development journey, projects, and backend expertise.
-            </p>
-            <a href="https://rampujanpandit.github.io/portfolio_web/" target="_blank" class="work-btn"><span>View Project</span> <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-          <div class="work">
-            <img src="file.png" alt="PDF Reader Project" loading="lazy" />
-            <h3>PDF Reader Backend</h3>
-            <p>
-              Scalable Java 17 & Spring Boot backend with MySQL for secure PDF uploading, metadata storage, and role-based access.
-            </p>
-            <a href="https://github.com/rampujanpandit/pdf_Reader.git" target="_blank" class="work-btn"><span>View Project</span> <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-          <div class="work">
-            <img src="gym.png" alt="Gym Management Project" loading="lazy" />
-            <h3>Gym Management System</h3>
-            <p>
-              Web app for gym operations featuring member registration, attendance tracking, payments, and workout scheduling.
-            </p>
-            <a href="https://github.com/rampujanpandit" target="_blank" class="work-btn"><span>View Project</span> <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
+        <h1 class="sub-title">My Work & Production Projects</h1>
+        <p class="section-intro">
+          Enterprise production backends, microservices architectures, and software solutions engineered for high availability, security, and performance.
+        </p>
+
+        <!-- Project Category Filters -->
+        <div class="portfolio-filters">
+          <button class="filter-btn active" data-filter="all">
+            <i class="fa-solid fa-border-all"></i> All Projects
+          </button>
+          <button class="filter-btn" data-filter="enterprise">
+            <i class="fa-solid fa-server"></i> Enterprise Production
+          </button>
+          <button class="filter-btn" data-filter="cloud">
+            <i class="fa-solid fa-cloud"></i> Cloud & Microservices
+          </button>
+          <button class="filter-btn" data-filter="personal">
+            <i class="fa-solid fa-code"></i> Open Source & Personal
+          </button>
         </div>
-        <a href="https://github.com/rampujanpandit" target="_blank" class="btn">See More</a>
+
+        <div class="work-list">
+          <!-- Project 1: Enterprise HRMS Platform Backend -->
+          <div class="work enterprise-work" data-category="enterprise cloud" data-project-id="hrms">
+            <div class="card-header">
+              <span class="prod-badge"><i class="fa-solid fa-shield-halved"></i> Production Backend</span>
+              <div class="work-icon-circle">
+                <i class="fa-solid fa-users-gear"></i>
+              </div>
+            </div>
+            <h3>Enterprise HRMS Platform Backend</h3>
+            <p class="work-desc">
+              Production-grade HR management backend engineered with Java 17 & Spring Boot, supporting employee lifecycle onboarding, attendance check-in with GPS context, leave engines, shift scheduling, and payroll.
+            </p>
+            <ul class="backend-highlights">
+              <li><i class="fa-solid fa-check"></i> <strong>100+ REST APIs</strong> with JWT + Role-Based Access Control (RBAC).</li>
+              <li><i class="fa-solid fa-check"></i> Optimized MySQL database schemas for high-concurrency employee logs.</li>
+              <li><i class="fa-solid fa-check"></i> Swagger/OpenAPI docs for Android app & web synchronization.</li>
+            </ul>
+            <div class="tech-pills">
+              <span>Java 17</span>
+              <span>Spring Boot</span>
+              <span>Spring Security</span>
+              <span>JWT</span>
+              <span>MySQL</span>
+              <span>OpenAPI</span>
+            </div>
+            <div class="card-actions">
+              <button class="work-btn arch-btn" data-project="hrms">
+                <span>View Architecture</span> <i class="fa-solid fa-diagram-project"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Project 2: Emerald Prepaid Card & Wallet Management Platform -->
+          <div class="work enterprise-work" data-category="enterprise cloud" data-project-id="prepaid">
+            <div class="card-header">
+              <span class="prod-badge"><i class="fa-solid fa-bolt"></i> Production Backend</span>
+              <div class="work-icon-circle">
+                <i class="fa-solid fa-credit-card"></i>
+              </div>
+            </div>
+            <h3>Prepaid Card & Wallet Platform</h3>
+            <p class="work-desc">
+              Event-driven prepaid card issuance & multi-currency wallet ledger powered by Spring Boot, RabbitMQ queues, and MySQL, with third-party banking API integrations.
+            </p>
+            <ul class="backend-highlights">
+              <li><i class="fa-solid fa-check"></i> Asynchronous approval pipelines & notifications via <strong>RabbitMQ</strong>.</li>
+              <li><i class="fa-solid fa-check"></i> Bulk card lot generation, BIN management, and dispatch state pipelines.</li>
+              <li><i class="fa-solid fa-check"></i> Audit logging & centralized exception handling for financial safety.</li>
+            </ul>
+            <div class="tech-pills">
+              <span>Spring Boot</span>
+              <span>RabbitMQ</span>
+              <span>MySQL</span>
+              <span>REST APIs</span>
+              <span>JWT</span>
+              <span>Audit Log</span>
+            </div>
+            <div class="card-actions">
+              <button class="work-btn arch-btn" data-project="prepaid">
+                <span>View Architecture</span> <i class="fa-solid fa-diagram-project"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Project 3: NBFC Financial Loan & Admin API Suite -->
+          <div class="work enterprise-work" data-category="enterprise" data-project-id="loans">
+            <div class="card-header">
+              <span class="prod-badge"><i class="fa-solid fa-coins"></i> Production Backend</span>
+              <div class="work-icon-circle">
+                <i class="fa-solid fa-building-columns"></i>
+              </div>
+            </div>
+            <h3>NBFC Loan Processing & Risk APIs</h3>
+            <p class="work-desc">
+              Financial loan backend services providing secure OTP login onboarding, automated credit eligibility calculation, interactive EMI breakdown engine, and admin ops console.
+            </p>
+            <ul class="backend-highlights">
+              <li><i class="fa-solid fa-check"></i> Dynamic EMI calculation engine with principal & interest schedules.</li>
+              <li><i class="fa-solid fa-check"></i> Secure mobile session management & OTP verification pipelines.</li>
+              <li><i class="fa-solid fa-check"></i> Admin console APIs with module-level access control permissions.</li>
+            </ul>
+            <div class="tech-pills">
+              <span>Java 17</span>
+              <span>Spring Boot</span>
+              <span>OTP Auth</span>
+              <span>MySQL</span>
+              <span>REST APIs</span>
+              <span>MVVM Sync</span>
+            </div>
+            <div class="card-actions">
+              <button class="work-btn arch-btn" data-project="loans">
+                <span>View Architecture</span> <i class="fa-solid fa-diagram-project"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Project 4: Expense & Fleet Management Suite -->
+          <div class="work enterprise-work" data-category="enterprise cloud" data-project-id="fleet">
+            <div class="card-header">
+              <span class="prod-badge"><i class="fa-solid fa-truck-fast"></i> Production Backend</span>
+              <div class="work-icon-circle">
+                <i class="fa-solid fa-receipt"></i>
+              </div>
+            </div>
+            <h3>Expense & Fleet Management Suite</h3>
+            <p class="work-desc">
+              Enterprise backend microservices for corporate expense reimbursement claims, fleet vehicle allocations, fuel tracking, and business entity hierarchies.
+            </p>
+            <ul class="backend-highlights">
+              <li><i class="fa-solid fa-check"></i> Multi-tier expense approval engine with receipt audit trail.</li>
+              <li><i class="fa-solid fa-check"></i> Fleet card allocation & mileage tracking microservices.</li>
+              <li><i class="fa-solid fa-check"></i> High-throughput SQL query optimization for transaction logs.</li>
+            </ul>
+            <div class="tech-pills">
+              <span>Spring Boot</span>
+              <span>Microservices</span>
+              <span>SQL Optimization</span>
+              <span>GCP</span>
+              <span>Docker</span>
+            </div>
+            <div class="card-actions">
+              <button class="work-btn arch-btn" data-project="fleet">
+                <span>View Architecture</span> <i class="fa-solid fa-diagram-project"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Project 5: PDF Reader Backend -->
+          <div class="work" data-category="personal" data-project-id="pdf">
+            <div class="card-header">
+              <span class="open-badge"><i class="fa-brands fa-github"></i> Open Source</span>
+              <div class="work-icon-circle">
+                <i class="fa-solid fa-file-pdf"></i>
+              </div>
+            </div>
+            <h3>PDF Reader Backend</h3>
+            <p class="work-desc">
+              Scalable Java 17 & Spring Boot backend with MySQL for secure PDF document uploading, metadata indexing, full-text parsing, and role-based document access.
+            </p>
+            <div class="tech-pills">
+              <span>Java 17</span>
+              <span>Spring Boot</span>
+              <span>MySQL</span>
+              <span>Spring Security</span>
+            </div>
+            <div class="card-actions">
+              <a href="https://github.com/rampujanpandit/pdf_Reader.git" target="_blank" class="work-btn">
+                <span>View Repository</span> <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 6: Gym Management System -->
+          <div class="work" data-category="personal" data-project-id="gym">
+            <div class="card-header">
+              <span class="open-badge"><i class="fa-brands fa-github"></i> Open Source</span>
+              <div class="work-icon-circle">
+                <i class="fa-solid fa-dumbbell"></i>
+              </div>
+            </div>
+            <h3>Gym Management System</h3>
+            <p class="work-desc">
+              Comprehensive web application for gym operations featuring member registrations, attendance tracking, recurring subscription billing, and workout scheduling.
+            </p>
+            <div class="tech-pills">
+              <span>Java</span>
+              <span>Spring MVC</span>
+              <span>MySQL</span>
+              <span>HTML5 / CSS3</span>
+            </div>
+            <div class="card-actions">
+              <a href="https://github.com/rampujanpandit" target="_blank" class="work-btn">
+                <span>View Repository</span> <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 7: Personal Portfolio Web -->
+          <div class="work" data-category="personal" data-project-id="portfolio">
+            <div class="card-header">
+              <span class="open-badge"><i class="fa-solid fa-globe"></i> Live Web</span>
+              <div class="work-icon-circle">
+                <i class="fa-solid fa-laptop-code"></i>
+              </div>
+            </div>
+            <h3>Developer Portfolio Website</h3>
+            <p class="work-desc">
+              Modern, high-performance developer portfolio built with Vanilla JS, semantic HTML5, glassmorphic CSS3 styling, and interactive features.
+            </p>
+            <div class="tech-pills">
+              <span>HTML5</span>
+              <span>CSS3</span>
+              <span>JavaScript</span>
+              <span>GitHub Pages</span>
+            </div>
+            <div class="card-actions">
+              <a href="https://rampujanpandit.github.io/portfolio_web/" target="_blank" class="work-btn">
+                <span>View Live Site</span> <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+        <a href="https://github.com/rampujanpandit" target="_blank" class="btn">
+          <i class="fa-brands fa-github"></i> Explore More Repositories
+        </a>
       </div>
     </div>
 
@@ -404,6 +605,24 @@
     <a href="#header" id="back-to-top" title="Back to Top" aria-label="Back to Top">
       <i class="fa-solid fa-arrow-up"></i>
     </a>
+
+    <!-- Architecture Details Modal -->
+    <div id="arch-modal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <span id="modal-badge" class="prod-badge"><i class="fa-solid fa-shield-halved"></i> Production Backend</span>
+            <h2 id="modal-title">Project Architecture</h2>
+          </div>
+          <button id="modal-close-btn" class="modal-close-btn" aria-label="Close modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <!-- Content dynamically injected via script.js -->
+        </div>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>
