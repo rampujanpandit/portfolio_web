@@ -75,6 +75,8 @@
             <li><a href="#about"><i class="fa-solid fa-user"></i> About</a></li>
             <li><a href="#services"><i class="fa-solid fa-briefcase"></i> Services</a></li>
             <li><a href="#portfolio"><i class="fa-solid fa-folder-open"></i> Portfolio</a></li>
+            <li><a href="#api-explorer"><i class="fa-solid fa-terminal"></i> API Sandbox</a></li>
+            <li><a href="#code-patterns"><i class="fa-solid fa-code"></i> Code Patterns</a></li>
             <li><a href="#contact"><i class="fa-solid fa-paper-plane"></i> Contact</a></li>
             <li>
               <a href="https://drive.google.com/file/d/1MBYkY-qhFyDPsbzaraZ-mZr42jY9S51U/view?usp=sharing" target="_blank" class="nav-resume-btn">
@@ -105,6 +107,49 @@
             <span>Scroll Down</span>
             <i class="fa-solid fa-chevron-down animate-bounce"></i>
           </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Enterprise SLA & Performance Metrics Strip -->
+    <div id="metrics-strip">
+      <div class="container">
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div class="metric-info">
+              <h3>&lt; 45ms</h3>
+              <p>Avg API Latency</p>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="metric-info">
+              <h3>99.9%</h3>
+              <p>SLA Uptime</p>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+            <div class="metric-info">
+              <h3>Zero-Downtime</h3>
+              <p>GCP Cloud Deployments</p>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon"><i class="fa-solid fa-network-wired"></i></div>
+            <div class="metric-info">
+              <h3>100k+</h3>
+              <p>RabbitMQ Events/Day</p>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon"><i class="fa-solid fa-lock"></i></div>
+            <div class="metric-info">
+              <h3>JWT + RBAC</h3>
+              <p>Enterprise Security</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -546,6 +591,104 @@
         <a href="https://github.com/rampujanpandit" target="_blank" class="btn">
           <i class="fa-brands fa-github"></i> Explore More Repositories
         </a>
+      </div>
+    </div>
+
+    <!-- Interactive API Explorer / Endpoint Showcase -->
+    <div id="api-explorer">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-badge"><i class="fa-solid fa-terminal"></i> Live Interactive Sandbox</span>
+          <h1 class="sub-title">Interactive API Showcase</h1>
+          <p class="section-subtitle">
+            Explore production RESTful API contracts engineered with Java 17, Spring Boot, JWT Security, and RabbitMQ. Click any endpoint below to inspect live cURL commands, request headers, and response payloads.
+          </p>
+        </div>
+
+        <div class="api-explorer-box">
+          <div class="api-endpoints-sidebar">
+            <button class="api-endpoint-btn active" data-api="auth">
+              <span class="http-method post">POST</span>
+              <span class="endpoint-path">/api/v1/auth/token</span>
+            </button>
+            <button class="api-endpoint-btn" data-api="prepaid">
+              <span class="http-method post">POST</span>
+              <span class="endpoint-path">/api/v1/cards/issue-lot</span>
+            </button>
+            <button class="api-endpoint-btn" data-api="hrms">
+              <span class="http-method get">GET</span>
+              <span class="endpoint-path">/api/v1/hrms/shift-roster</span>
+            </button>
+            <button class="api-endpoint-btn" data-api="loan">
+              <span class="http-method post">POST</span>
+              <span class="endpoint-path">/api/v1/loans/calculate-emi</span>
+            </button>
+          </div>
+
+          <div class="api-explorer-content">
+            <div class="api-header-bar">
+              <div class="api-title-status">
+                <span id="api-method-badge" class="http-method post">POST</span>
+                <span id="api-url-display" class="api-url-text">https://api.enterprise.com/api/v1/auth/token</span>
+              </div>
+              <div class="api-meta-info">
+                <span class="api-status-badge"><i class="fa-solid fa-circle-check"></i> Status: <strong id="api-status-code">200 OK</strong></span>
+                <span class="api-latency-badge"><i class="fa-solid fa-stopwatch"></i> Time: <strong id="api-latency">34ms</strong></span>
+              </div>
+            </div>
+
+            <div class="api-body-wrapper">
+              <div class="api-pane">
+                <div class="pane-title">
+                  <span><i class="fa-solid fa-code"></i> Request Payload (JSON)</span>
+                  <button id="copy-curl-btn" class="mini-copy-btn"><i class="fa-regular fa-copy"></i> Copy cURL</button>
+                </div>
+                <pre class="code-block"><code id="api-req-json"></code></pre>
+              </div>
+
+              <div class="api-pane">
+                <div class="pane-title">
+                  <span><i class="fa-solid fa-reply"></i> Standardized Response Payload (JSON)</span>
+                  <span class="auth-indicator"><i class="fa-solid fa-lock"></i> Bearer JWT Verified</span>
+                </div>
+                <pre class="code-block"><code id="api-res-json"></code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Production Code Patterns & Design Snippets -->
+    <div id="code-patterns">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-badge"><i class="fa-solid fa-code"></i> Enterprise Design Patterns</span>
+          <h1 class="sub-title">Production Code Showcase</h1>
+          <p class="section-subtitle">
+            Demonstrating clean code practices, asynchronous event messaging, robust exception handling, and Spring Security filters.
+          </p>
+        </div>
+
+        <div class="code-pattern-card">
+          <div class="code-tabs-header">
+            <button class="code-tab-btn active" data-code="rabbitmq"><i class="fa-solid fa-bolt"></i> RabbitMQ Event Consumer & DLQ</button>
+            <button class="code-tab-btn" data-code="jwt"><i class="fa-solid fa-shield-cat"></i> Custom JWT Security Filter</button>
+            <button class="code-tab-btn" data-code="exception"><i class="fa-solid fa-bug-slash"></i> Global Exception Handler DTO</button>
+          </div>
+          <div class="code-editor-window">
+            <div class="editor-top-bar">
+              <div class="window-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span id="code-file-name" class="window-filename">RabbitMQEventConsumer.java</span>
+              <button id="copy-code-btn" class="mini-copy-btn"><i class="fa-regular fa-copy"></i> Copy Code</button>
+            </div>
+            <pre class="editor-code"><code id="code-snippet-display"></code></pre>
+          </div>
+        </div>
       </div>
     </div>
 

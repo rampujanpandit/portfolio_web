@@ -311,6 +311,43 @@ function openArchModal(projectId) {
 
   let bodyHTML = `
     <div class="arch-section">
+      <h4><i class="fa-solid fa-sitemap"></i> Microservice Architecture Topology</h4>
+      <div class="arch-flow-diagram">
+        <div class="flow-title"><i class="fa-solid fa-diagram-project"></i> End-to-End Distributed Pipeline</div>
+        <div class="flow-nodes-container">
+          <div class="flow-node">
+            <i class="fa-solid fa-mobile-screen"></i>
+            <h5>Client Layer</h5>
+            <p>Android / Web Client</p>
+          </div>
+          <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+          <div class="flow-node">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h5>API Gateway</h5>
+            <p>JWT + RBAC Auth</p>
+          </div>
+          <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+          <div class="flow-node">
+            <i class="fa-solid fa-cubes"></i>
+            <h5>Spring Boot</h5>
+            <p>Java 17 Microservices</p>
+          </div>
+          <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+          <div class="flow-node">
+            <i class="fa-solid fa-bolt"></i>
+            <h5>RabbitMQ</h5>
+            <p>Async Queue / DLX</p>
+          </div>
+          <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+          <div class="flow-node">
+            <i class="fa-solid fa-database"></i>
+            <h5>Persistence</h5>
+            <p>MySQL & GCP</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="arch-section">
       <h4><i class="fa-solid fa-circle-exclamation"></i> Problem & Objective</h4>
       <p>${data.problem}</p>
     </div>
@@ -468,3 +505,240 @@ window.addEventListener("keyup", (e) => {
     }, 1500);
   }
 });
+
+// ------------------------------------------------------------------
+// 13. Interactive API Showcase & Sandbox Engine
+// ------------------------------------------------------------------
+const apiData = {
+  auth: {
+    method: "POST",
+    url: "https://api.enterprise.com/api/v1/auth/token",
+    status: "200 OK",
+    latency: "34ms",
+    reqJson: `{\n  "clientId": "emp_client_9941",\n  "clientSecret": "sec_live_a98f12k89",\n  "grantType": "client_credentials"\n}`,
+    resJson: `{\n  "statusCode": 200,\n  "status": "SUCCESS",\n  "timestamp": "${new Date().toISOString()}",\n  "data": {\n    "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbXBfOTk0MSIsInJvbGVzIjpbIlJPTEVfQURNSU4iLCJST0xFX0hSIl19...",\n    "tokenType": "Bearer",\n    "expiresIn": 86400,\n    "roles": ["ROLE_ADMIN", "ROLE_HR_MANAGER"]\n  }\n}`
+  },
+  prepaid: {
+    method: "POST",
+    url: "https://api.enterprise.com/api/v1/cards/issue-lot",
+    status: "201 Created",
+    latency: "48ms",
+    reqJson: `{\n  "corporateId": "CORP_8812",\n  "binNumber": "459082",\n  "cardQuantity": 500,\n  "currency": "INR",\n  "initialLoadAmount": 2500.00,\n  "asyncEventNotify": true\n}`,
+    resJson: `{\n  "statusCode": 201,\n  "status": "CREATED",\n  "timestamp": "${new Date().toISOString()}",\n  "data": {\n    "lotId": "LOT_2026_0923_88",\n    "message": "Lot generation queued to RabbitMQ queue 'card.issuance.queue'",\n    "eventId": "evt_88492019a",\n    "totalCards": 500,\n    "status": "PROCESSING"\n  }\n}`
+  },
+  hrms: {
+    method: "GET",
+    url: "https://api.enterprise.com/api/v1/hrms/shift-roster?empId=EMP_1024&month=2026-09",
+    status: "200 OK",
+    latency: "28ms",
+    reqJson: `// Query Parameters:\n// empId: EMP_1024\n// month: 2026-09\n// Headers: Authorization: Bearer <token>`,
+    resJson: `{\n  "statusCode": 200,\n  "status": "SUCCESS",\n  "timestamp": "${new Date().toISOString()}",\n  "data": {\n    "employeeId": "EMP_1024",\n    "shiftName": "General Morning Shift (09:00 - 18:00)",\n    "workingDays": 22,\n    "presentDays": 20,\n    "regularizedLeaves": 2,\n    "locationBoundary": "GPS_GEOFENCE_ACTIVE"\n  }\n}`
+  },
+  loan: {
+    method: "POST",
+    url: "https://api.enterprise.com/api/v1/loans/calculate-emi",
+    status: "200 OK",
+    latency: "32ms",
+    reqJson: `{\n  "requestedPrincipal": 500000.00,\n  "tenorMonths": 36,\n  "annualInterestRate": 11.5,\n  "applicantCategory": "SALARIED"\n}`,
+    resJson: `{\n  "statusCode": 200,\n  "status": "SUCCESS",\n  "timestamp": "${new Date().toISOString()}",\n  "data": {\n    "monthlyEmi": 16474.22,\n    "totalInterestPayable": 93071.92,\n    "totalAmountPayable": 593071.92,\n    "eligibilityStatus": "APPROVED",\n    "riskScore": 780\n  }\n}`
+  }
+};
+
+const apiBtns = document.querySelectorAll(".api-endpoint-btn");
+const apiMethodBadge = document.getElementById("api-method-badge");
+const apiUrlDisplay = document.getElementById("api-url-display");
+const apiStatusCode = document.getElementById("api-status-code");
+const apiLatency = document.getElementById("api-latency");
+const apiReqJson = document.getElementById("api-req-json");
+const apiResJson = document.getElementById("api-res-json");
+const copyCurlBtn = document.getElementById("copy-curl-btn");
+
+function renderApiEndpoint(key) {
+  const data = apiData[key];
+  if (!data) return;
+
+  if (apiMethodBadge) {
+    apiMethodBadge.textContent = data.method;
+    apiMethodBadge.className = `http-method ${data.method.toLowerCase()}`;
+  }
+  if (apiUrlDisplay) apiUrlDisplay.textContent = data.url;
+  if (apiStatusCode) apiStatusCode.textContent = data.status;
+  if (apiLatency) apiLatency.textContent = data.latency;
+  if (apiReqJson) apiReqJson.textContent = data.reqJson;
+  if (apiResJson) apiResJson.textContent = data.resJson;
+}
+
+apiBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    apiBtns.forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    const apiKey = btn.getAttribute("data-api");
+    renderApiEndpoint(apiKey);
+  });
+});
+
+if (copyCurlBtn) {
+  copyCurlBtn.addEventListener("click", () => {
+    const activeBtn = document.querySelector(".api-endpoint-btn.active");
+    const key = activeBtn ? activeBtn.getAttribute("data-api") : "auth";
+    const data = apiData[key];
+    if (!data) return;
+
+    const curlCmd = `curl -X ${data.method} "${data.url}" \\\n  -H "Content-Type: application/json" \\\n  -H "Authorization: Bearer <jwt_token>" \\\n  -d '${data.reqJson.replace(/\n\s*/g, " ")}'`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(curlCmd).then(() => {
+        showCopyNotification("cURL command copied to clipboard!");
+      }).catch(() => {
+        fallbackCopyTextToClipboard(curlCmd);
+      });
+    } else {
+      fallbackCopyTextToClipboard(curlCmd);
+    }
+  });
+}
+
+renderApiEndpoint("auth");
+
+// ------------------------------------------------------------------
+// 14. Production Code Patterns Showcase Component
+// ------------------------------------------------------------------
+const codeSnippets = {
+  rabbitmq: {
+    fileName: "RabbitMQEventConsumer.java",
+    code: `@Component
+@Slf4j
+public class PrepaidCardEventConsumer {
+
+    @Autowired
+    private WalletLedgerService ledgerService;
+
+    @RabbitListener(queues = "\${app.rabbitmq.queue.card-issuance}")
+    public void processCardIssuanceEvent(CardIssuanceEventPayload event, 
+                                         Message message, 
+                                         Channel channel) throws IOException {
+        long deliveryTag = message.getMessageProperties().getDeliveryTag();
+        try {
+            log.info("Processing asynchronous card lot dispatch event: {}", event.getLotId());
+            
+            // Execute transactional ledger update
+            ledgerService.executeWalletCredit(event.getCorporateId(), event.getInitialLoadAmount());
+            
+            // Manual Acknowledge Message
+            channel.basicAck(deliveryTag, false);
+            log.info("Successfully processed event ID: {}", event.getEventId());
+        } catch (Exception ex) {
+            log.error("Error processing event. Routing to Dead Letter Exchange (DLX)", ex);
+            // Reject and route to Dead Letter Queue for inspection
+            channel.basicNack(deliveryTag, false, false);
+        }
+    }
+}`
+  },
+  jwt: {
+    fileName: "JwtAuthenticationFilter.java",
+    code: `@Component
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, 
+                                    HttpServletResponse response, 
+                                    FilterChain filterChain) throws ServletException, IOException {
+        String token = parseBearerToken(request);
+        
+        if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
+            String username = jwtTokenProvider.getUsernameFromJWT(token);
+            List<GrantedAuthority> authorities = jwtTokenProvider.getAuthoritiesFromJWT(token);
+            
+            UsernamePasswordAuthenticationToken authentication = 
+                new UsernamePasswordAuthenticationToken(username, null, authorities);
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+        filterChain.doFilter(request, response);
+    }
+}`
+  },
+  exception: {
+    fileName: "GlobalExceptionHandler.java",
+    code: `@RestControllerAdvice
+@Slf4j
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<ApiResponse<Object>> handleBusinessRuleException(BusinessRuleException ex) {
+        log.warn("Business rule violation: {}", ex.getMessage());
+        ApiResponse<Object> response = ApiResponse.builder()
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .status("FAILURE")
+                .message(ex.getMessage())
+                .timestamp(Instant.now())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error -> 
+            errors.put(error.getField(), error.getDefaultMessage()));
+        
+        ApiResponse<Map<String, String>> response = ApiResponse.<Map<String, String>>builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .status("VALIDATION_ERROR")
+                .message("Invalid input request parameters")
+                .data(errors)
+                .timestamp(Instant.now())
+                .build();
+        return ResponseEntity.badRequest().body(response);
+    }
+}`
+  }
+};
+
+const codeTabBtns = document.querySelectorAll(".code-tab-btn");
+const codeFileName = document.getElementById("code-file-name");
+const codeSnippetDisplay = document.getElementById("code-snippet-display");
+const copyCodeBtn = document.getElementById("copy-code-btn");
+
+function renderCodeSnippet(key) {
+  const data = codeSnippets[key];
+  if (!data) return;
+
+  if (codeFileName) codeFileName.textContent = data.fileName;
+  if (codeSnippetDisplay) codeSnippetDisplay.textContent = data.code;
+}
+
+codeTabBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    codeTabBtns.forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    const codeKey = btn.getAttribute("data-code");
+    renderCodeSnippet(codeKey);
+  });
+});
+
+if (copyCodeBtn) {
+  copyCodeBtn.addEventListener("click", () => {
+    const activeBtn = document.querySelector(".code-tab-btn.active");
+    const key = activeBtn ? activeBtn.getAttribute("data-code") : "rabbitmq";
+    const data = codeSnippets[key];
+    if (!data) return;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(data.code).then(() => {
+        showCopyNotification(`${data.fileName} copied to clipboard!`);
+      }).catch(() => {
+        fallbackCopyTextToClipboard(data.code);
+      });
+    } else {
+      fallbackCopyTextToClipboard(data.code);
+    }
+  });
+}
+
+renderCodeSnippet("rabbitmq");
