@@ -1033,13 +1033,49 @@ if (resumeModal) {
 }
 
 // ------------------------------------------------------------------
-// 19. Web Audio Intro Speech Synthesizer
+// 19. Web Audio Intro Speech Synthesizer (Male Voice Engine)
 // ------------------------------------------------------------------
 const audioIntroBtn = document.getElementById("audio-intro-btn");
 const audioBtnText = document.getElementById("audio-btn-text");
 const audioBtnIcon = document.getElementById("audio-btn-icon");
 let isSpeaking = false;
 let speechUtterance = null;
+let cachedVoices = [];
+
+function loadVoices() {
+  if ('speechSynthesis' in window) {
+    cachedVoices = window.speechSynthesis.getVoices();
+  }
+}
+
+if ('speechSynthesis' in window) {
+  loadVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+}
+
+function getMaleVoice() {
+  if (!cachedVoices || cachedVoices.length === 0) {
+    cachedVoices = window.speechSynthesis.getVoices();
+  }
+  
+  const maleKeywords = ["male", "david", "mark", "george", "guy", "alex", "daniel", "james", "richard", "google uk english male", "microsoft david"];
+  
+  let foundVoice = cachedVoices.find(v => {
+    const nameLower = v.name.toLowerCase();
+    return v.lang.startsWith("en") && maleKeywords.some(k => nameLower.includes(k));
+  });
+
+  if (!foundVoice) {
+    foundVoice = cachedVoices.find(v => {
+      const nameLower = v.name.toLowerCase();
+      return v.lang.startsWith("en") && !nameLower.includes("female") && !nameLower.includes("zira") && !nameLower.includes("hazel") && !nameLower.includes("susan") && !nameLower.includes("catherine");
+    });
+  }
+
+  return foundVoice || cachedVoices.find(v => v.lang.startsWith("en")) || null;
+}
 
 if (audioIntroBtn) {
   audioIntroBtn.addEventListener("click", () => {
@@ -1060,8 +1096,13 @@ if (audioIntroBtn) {
     const textToSpeak = "Hello and welcome! I am Ram Pujan Pandit, a Senior Software Developer and Backend Engineer based in Delhi NCR. With over 3.6 years of hands-on enterprise experience, I specialize in architecting high-performance Java 17 and 21 microservices, Spring Boot 3 frameworks, RabbitMQ asynchronous event queues, and Google Cloud Platform deployments. I have designed systems processing over 100 thousand daily transactions with sub-45-millisecond latency. Feel free to explore my interactive API sandbox, ERD database models, and developer CLI terminal. Thank you for visiting!";
 
     speechUtterance = new SpeechSynthesisUtterance(textToSpeak);
-    speechUtterance.rate = 1.05;
-    speechUtterance.pitch = 1.0;
+    speechUtterance.rate = 1.0;
+    speechUtterance.pitch = 0.88; // Deeper male pitch tone
+
+    const maleVoice = getMaleVoice();
+    if (maleVoice) {
+      speechUtterance.voice = maleVoice;
+    }
 
     speechUtterance.onstart = () => {
       isSpeaking = true;
@@ -1357,7 +1398,6 @@ function updateScaleCalculator(txns) {
     sliderTxnDisplay.textContent = `${val.toLocaleString()} Txns / Day`;
   }
 
-  // Mathematics for System Capacity Estimation
   const peakTpsVal = ((val / 86400) * 4.5).toFixed(1);
   const hikariPoolVal = Math.max(10, Math.min(100, Math.ceil(peakTpsVal * 2.5 + 5)));
   const rabbitMsgVal = ((val / 86400) * 2.5).toFixed(1);
@@ -1424,6 +1464,7 @@ function closeCliModal() {
   if (cliModal) {
     cliModal.classList.remove("active");
     document.body.style.overflow = "auto";
+    if (cliOutput) cliOutput.innerHTML = ""; // Clear output screen on CLI close!
   }
 }
 
@@ -1458,6 +1499,9 @@ if (cliInput && cliOutput) {
 
       switch (mainCmd) {
         case "help":
+        case "help--":
+        case "help-":
+        case "?":
           appendCliEntry(`Available CLI Commands:
   • bio       - Print Ram Pujan Pandit's career background & profile
   • skills    - List core backend & cloud tech stack (Java 17/21, Spring Boot, GCP)
@@ -1492,6 +1536,30 @@ Cloud & Ops: Google Cloud Platform (GCP Cloud Run, Compute Engine), Linux Ubuntu
 2. Enterprise HRMS & Payroll Engine - Automated salary calculations & geolocation shift roster.
 3. Automated Content Engine - GCP Cloud Run event pipeline for social publishing.
 4. Real-Time Task Flow System - Decoupled Spring Boot microservice workflow.`, "system-res");
+          break;
+
+        case "ls":
+        case "dir":
+          appendCliEntry("bio.txt   skills.txt   projects.json   health.json   contact.txt", "system-res");
+          break;
+
+        case "cat":
+          const arg = (parts[1] || "").replace(".txt", "").replace(".json", "");
+          if (arg === "bio") {
+            appendCliEntry(`[RAM PUJAN PANDIT - PROFILE]\nRole: Software Developer & Backend Engineer\nExperience: 3.6+ Years Enterprise Engineering\nLocation: Delhi NCR, India (Native: Bihar)\nSpecialities: Microservices Architecture, Asynchronous Messaging, High-Throughput REST APIs, Cloud Infrastructure.`, "system-res");
+          } else if (arg === "skills") {
+            appendCliEntry(`[TECHNICAL STACK]\nLanguages: Java 17, Java 21, SQL, JavaScript (ES6+)\nFrameworks: Spring Boot 3, Spring Data JPA, Spring Security, Hibernate\nBroker/Queues: RabbitMQ (AMQP 5672), Dead-Letter Queues (DLQ)\nDatabase: MySQL, HikariCP, Schema Normalization\nCloud & Ops: Google Cloud Platform (GCP Cloud Run, Compute Engine), Linux Ubuntu, Docker`, "system-res");
+          } else if (arg === "projects") {
+            appendCliEntry(`[PRODUCTION PROJECTS]\n1. Corporate Prepaid Card & Wallet Platform - High-speed fintech ledger handling 100k txns/day.\n2. Enterprise HRMS & Payroll Engine - Automated salary calculations & geolocation shift roster.\n3. Automated Content Engine - GCP Cloud Run event pipeline for social publishing.\n4. Real-Time Task Flow System - Decoupled Spring Boot microservice workflow.`, "system-res");
+          } else if (arg === "contact") {
+            appendCliEntry(`[CONTACT DETAILS]\nEmail: rpp1508@gmail.com\nPhone: +91-9113392885\nLinkedIn: https://www.linkedin.com/in/rampujanpandit\nGitHub: https://github.com/rampujanpandit`, "system-res");
+          } else {
+            appendCliEntry(`cat: ${parts[1] || ''}: No such file. Type 'ls' to see available files or 'help' for commands.`, "error-res");
+          }
+          break;
+
+        case "whoami":
+          appendCliEntry("recruiter@enterprise-node (Guest Visitor)", "system-res");
           break;
 
         case "health":
