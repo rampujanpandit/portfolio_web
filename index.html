@@ -67,6 +67,7 @@
   <body>
     <div id="menu-overlay"></div>
     <div id="header">
+      <canvas id="hero-3d-canvas"></canvas>
       <div class="container">
         <nav>
           <img src="logo.png" class="logo" alt="Logo" />
@@ -77,6 +78,9 @@
             <li><a href="#portfolio"><i class="fa-solid fa-folder-open"></i> Portfolio</a></li>
             <li><a href="#api-explorer"><i class="fa-solid fa-terminal"></i> API Sandbox</a></li>
             <li><a href="#code-patterns"><i class="fa-solid fa-code"></i> Code Patterns</a></li>
+            <li><a href="#database-erd"><i class="fa-solid fa-database"></i> DB Schemas</a></li>
+            <li><a href="#benchmark-matrix"><i class="fa-solid fa-chart-line"></i> Benchmarks</a></li>
+            <li><a href="#scale-calculator"><i class="fa-solid fa-calculator"></i> Sizing Calc</a></li>
             <li><a href="#contact"><i class="fa-solid fa-paper-plane"></i> Contact</a></li>
             <li>
               <a href="https://drive.google.com/file/d/1MBYkY-qhFyDPsbzaraZ-mZr42jY9S51U/view?usp=sharing" target="_blank" class="nav-resume-btn">
@@ -100,6 +104,16 @@
             <span class="hero-pill"><i class="fa-solid fa-bolt"></i> RabbitMQ</span>
             <span class="hero-pill"><i class="fa-solid fa-server"></i> REST APIs</span>
             <span class="hero-pill"><i class="fa-solid fa-cloud"></i> GCP</span>
+          </div>
+          <div class="audio-intro-wrapper">
+            <button id="audio-intro-btn" class="audio-intro-btn" aria-label="Listen to 30-second audio summary">
+              <i class="fa-solid fa-volume-high" id="audio-btn-icon"></i>
+              <span id="audio-btn-text">Listen 30s Voice Intro</span>
+              <div id="audio-waves" class="audio-waves">
+                <span></span><span></span><span></span><span></span>
+              </div>
+            </button>
+            <span class="audio-tag"><i class="fa-solid fa-microchip"></i> Interactive Web Speech</span>
           </div>
         </div>
         <div class="scroll-down-container">
@@ -641,7 +655,10 @@
               <div class="api-pane">
                 <div class="pane-title">
                   <span><i class="fa-solid fa-code"></i> Request Payload (JSON)</span>
-                  <button id="copy-curl-btn" class="mini-copy-btn"><i class="fa-regular fa-copy"></i> Copy cURL</button>
+                  <div class="pane-btn-group">
+                    <button id="download-postman-btn" class="mini-copy-btn"><i class="fa-solid fa-file-export"></i> Postman JSON</button>
+                    <button id="copy-curl-btn" class="mini-copy-btn"><i class="fa-regular fa-copy"></i> Copy cURL</button>
+                  </div>
                 </div>
                 <pre class="code-block"><code id="api-req-json"></code></pre>
               </div>
@@ -687,6 +704,189 @@
               <button id="copy-code-btn" class="mini-copy-btn"><i class="fa-regular fa-copy"></i> Copy Code</button>
             </div>
             <pre class="editor-code"><code id="code-snippet-display"></code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Database Schemas & ERD Entity Visualizer -->
+    <div id="database-erd">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-badge"><i class="fa-solid fa-database"></i> SQL Relational Models</span>
+          <h1 class="sub-title">Database Schemas & ERD Visualizer</h1>
+          <p class="section-subtitle">
+            Normalized MySQL schemas, index optimization, primary/foreign key constraints for high-volume enterprise systems.
+          </p>
+        </div>
+
+        <div class="erd-tabs-header">
+          <button class="erd-tab-btn active" data-schema="hrms"><i class="fa-solid fa-id-card"></i> HRMS & Payroll Engine Schema</button>
+          <button class="erd-tab-btn" data-schema="wallet"><i class="fa-solid fa-wallet"></i> Prepaid Wallet Platform Schema</button>
+        </div>
+
+        <div class="erd-viewer-container">
+          <div class="erd-tables-grid" id="erd-tables-display">
+            <!-- Rendered dynamically by script.js -->
+          </div>
+          <div class="erd-ddl-sidebar">
+            <div class="erd-ddl-header">
+              <i class="fa-solid fa-code"></i> <span>SQL DDL Schema Definition</span>
+            </div>
+            <pre class="code-block"><code id="erd-sql-code">-- Click any table card on the left to inspect its normalized SQL DDL statement</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Architecture Benchmark & Comparison Matrix -->
+    <div id="benchmark-matrix">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-badge"><i class="fa-solid fa-diagram-project"></i> Architectural Evaluation</span>
+          <h1 class="sub-title">System Architecture Benchmarks</h1>
+          <p class="section-subtitle">
+            Empirical engineering trade-offs comparing traditional Monoliths vs Spring Microservices and Sync REST vs Async Event Queues.
+          </p>
+        </div>
+
+        <div class="benchmark-toggle-bar">
+          <button class="benchmark-tab-btn active" data-bench="arch"><i class="fa-solid fa-cubes"></i> Monolith vs Spring Boot Microservices</button>
+          <button class="benchmark-tab-btn" data-bench="async"><i class="fa-solid fa-bolt"></i> Synchronous REST vs RabbitMQ Event Queues</button>
+        </div>
+
+        <div class="benchmark-content-box" id="benchmark-display">
+          <!-- Rendered dynamically by script.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Enterprise System Throughput & Scale Calculator -->
+    <div id="scale-calculator">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-badge"><i class="fa-solid fa-calculator"></i> Capacity Planning</span>
+          <h1 class="sub-title">Throughput & Scale Calculator</h1>
+          <p class="section-subtitle">
+            Simulate transaction growth to dynamically calculate database connection pools (HikariCP), RabbitMQ message rates, and cloud instance requirements.
+          </p>
+        </div>
+
+        <div class="calculator-card">
+          <div class="calc-slider-header">
+            <div class="calc-label-group">
+              <label for="scale-slider">Daily Transaction Volume:</label>
+              <span id="slider-txn-display" class="calc-val-highlight">100,000 Txns / Day</span>
+            </div>
+            <div class="calc-presets">
+              <button class="preset-btn" data-val="10000">10k</button>
+              <button class="preset-btn active" data-val="100000">100k</button>
+              <button class="preset-btn" data-val="500000">500k</button>
+              <button class="preset-btn" data-val="1000000">1 Million</button>
+            </div>
+          </div>
+
+          <input type="range" id="scale-slider" min="10000" max="1000000" step="10000" value="100000" class="custom-range-slider" />
+
+          <div class="calc-metrics-grid">
+            <div class="calc-metric-box">
+              <i class="fa-solid fa-gauge-high"></i>
+              <h4>Peak TPS (Req/Sec)</h4>
+              <span id="calc-tps" class="calc-num">5.2 TPS</span>
+              <p class="calc-desc">Calculated with 4.5x peak burst multiplier</p>
+            </div>
+
+            <div class="calc-metric-box">
+              <i class="fa-solid fa-database"></i>
+              <h4>HikariCP Pool Size</h4>
+              <span id="calc-hikaricp" class="calc-num">20 Conn</span>
+              <p class="calc-desc">Optimal DB Connection Threads</p>
+            </div>
+
+            <div class="calc-metric-box">
+              <i class="fa-solid fa-envelope-open-text"></i>
+              <h4>RabbitMQ Queue Rate</h4>
+              <span id="calc-rabbitmq" class="calc-num">12.5 Msg/s</span>
+              <p class="calc-desc">Async Decoupled Broker Payload</p>
+            </div>
+
+            <div class="calc-metric-box">
+              <i class="fa-solid fa-cloud"></i>
+              <h4>GCP Cloud Run Pods</h4>
+              <span id="calc-gcp" class="calc-num">2 Instances</span>
+              <p class="calc-desc">Auto-scaling Container Replicas</p>
+            </div>
+          </div>
+
+          <div class="calc-recommendation-box">
+            <i class="fa-solid fa-lightbulb"></i>
+            <div class="recommendation-text">
+              <strong id="calc-rec-title">Architecture Recommendation: Single Cloud Run Node with HikariCP Pool</strong>
+              <p id="calc-rec-body">At 100k daily transactions, a single Spring Boot service instance backed by a MySQL database with a 20-connection HikariCP pool and asynchronous RabbitMQ logging handles peak loads with sub-45ms latency effortlessly.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cloud Microservices Health & System Monitor -->
+    <div id="system-health">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-badge"><i class="fa-solid fa-signal"></i> Infrastructure Telemetry</span>
+          <h1 class="sub-title">Live Service Health Monitor</h1>
+          <p class="section-subtitle">
+            Simulated real-time status of backend microservice nodes, API Gateway, event queues, and GCP cloud databases.
+          </p>
+        </div>
+
+        <div class="health-monitor-grid">
+          <div class="health-card">
+            <div class="health-header">
+              <span class="status-indicator online"></span>
+              <h4>Auth & Gateway Cluster</h4>
+            </div>
+            <div class="health-body">
+              <div class="health-stat"><span>Protocol:</span> <strong>HTTPS / JWT</strong></div>
+              <div class="health-stat"><span>Uptime:</span> <strong class="green-text">99.99%</strong></div>
+              <div class="health-stat"><span>Status:</span> <strong class="green-text">HEALTHY (200 OK)</strong></div>
+            </div>
+          </div>
+
+          <div class="health-card">
+            <div class="health-header">
+              <span class="status-indicator online"></span>
+              <h4>RabbitMQ Message Broker</h4>
+            </div>
+            <div class="health-body">
+              <div class="health-stat"><span>Protocol:</span> <strong>AMQP 5672</strong></div>
+              <div class="health-stat"><span>Queue Backlog:</span> <strong class="green-text">0 Messages</strong></div>
+              <div class="health-stat"><span>Status:</span> <strong class="green-text">ACTIVE (100k/day)</strong></div>
+            </div>
+          </div>
+
+          <div class="health-card">
+            <div class="health-header">
+              <span class="status-indicator online"></span>
+              <h4>MySQL DB Cluster</h4>
+            </div>
+            <div class="health-body">
+              <div class="health-stat"><span>Connection Pool:</span> <strong>HikariCP (Max 50)</strong></div>
+              <div class="health-stat"><span>Query Latency:</span> <strong class="green-text">3.8ms</strong></div>
+              <div class="health-stat"><span>Status:</span> <strong class="green-text">CONNECTED</strong></div>
+            </div>
+          </div>
+
+          <div class="health-card">
+            <div class="health-header">
+              <span class="status-indicator online"></span>
+              <h4>GCP Cloud Compute Nodes</h4>
+            </div>
+            <div class="health-body">
+              <div class="health-stat"><span>Environment:</span> <strong>Linux Ubuntu 22.04</strong></div>
+              <div class="health-stat"><span>CPU Usage:</span> <strong class="green-text">14.2%</strong></div>
+              <div class="health-stat"><span>Status:</span> <strong class="green-text">RUNNING</strong></div>
+            </div>
           </div>
         </div>
       </div>
@@ -841,6 +1041,72 @@
         </div>
         <div class="modal-body" id="modal-body">
           <!-- Content dynamically injected via script.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Fullscreen Resume Viewer Modal -->
+    <div id="resume-modal" class="modal-overlay">
+      <div class="modal-content resume-modal-content">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <span class="prod-badge"><i class="fa-solid fa-file-pdf"></i> Official Curriculum Vitae</span>
+            <h2>Ram Pujan Pandit - Resume</h2>
+          </div>
+          <div class="modal-actions-group">
+            <a href="https://drive.google.com/file/d/1MBYkY-qhFyDPsbzaraZ-mZr42jY9S51U/view?usp=sharing" target="_blank" class="mini-copy-btn">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Drive
+            </a>
+            <button id="resume-close-btn" class="modal-close-btn" aria-label="Close resume modal">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </div>
+        <div class="modal-body resume-modal-body">
+          <iframe src="https://drive.google.com/file/d/1MBYkY-qhFyDPsbzaraZ-mZr42jY9S51U/preview" width="100%" height="600" allow="autoplay"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating CLI Terminal Trigger Button -->
+    <button id="cli-trigger-btn" class="cli-floating-btn" title="Launch Developer CLI Terminal" aria-label="Launch Developer CLI Terminal">
+      <i class="fa-solid fa-terminal"></i>
+      <span>CLI Terminal</span>
+    </button>
+
+    <!-- Developer CLI Terminal Modal -->
+    <div id="rpp-cli-modal" class="modal-overlay">
+      <div class="modal-content cli-modal-content">
+        <div class="cli-top-bar">
+          <div class="window-dots">
+            <button id="cli-close-dot" class="dot red" title="Close CLI Terminal"></button>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <div class="cli-title">
+            <i class="fa-solid fa-terminal"></i> rpp@enterprise-node: ~ (bash - v2.4)
+          </div>
+          <button id="cli-modal-close" class="modal-close-btn" aria-label="Close terminal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="cli-body" id="cli-body">
+          <div class="cli-welcome-banner">
+            <pre class="cli-ascii">
+ ____  ____  ____    ____ ___ _____ 
+|  _ \|  _ \|  _ \  / ___|_ _|_   _|
+| |_) | |_) | |_) | | |    | |  | |  
+|  _ &lt;|  __/|  __/  | |___ | |  | |  
+|_| \_\_|   |_|      \____|___| |_|  
+            </pre>
+            <p class="cli-subtext">Welcome to <strong>Ram Pujan Pandit's Developer CLI Terminal</strong> v2.4.0-RELEASE.</p>
+            <p class="cli-help-tip">Type <span class="cli-cmd-highlight">help</span> for commands, or <span class="cli-cmd-highlight">health</span>, <span class="cli-cmd-highlight">bio</span>, <span class="cli-cmd-highlight">skills</span>, <span class="cli-cmd-highlight">projects</span>.</p>
+          </div>
+          <div id="cli-output" class="cli-output"></div>
+          <div class="cli-input-line">
+            <span class="cli-prompt">rpp@enterprise:~$</span>
+            <input type="text" id="cli-input" placeholder="Type a command..." autocomplete="off" spellcheck="false" />
+          </div>
         </div>
       </div>
     </div>
