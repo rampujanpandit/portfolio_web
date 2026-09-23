@@ -32,6 +32,16 @@ if (menuOverlay) {
   menuOverlay.addEventListener("click", closeMenu);
 }
 
+// Auto-close mobile side drawer when clicking any link
+const allNavLinks = document.querySelectorAll("nav ul li a");
+allNavLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    if (window.innerWidth <= 850) {
+      closeMenu();
+    }
+  });
+});
+
 // 2. Dynamic Typing Animation Effect for Hero Section
 const typingElement = document.querySelector(".typing-text");
 const roles = [
