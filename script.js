@@ -2,45 +2,79 @@
 // Ram Pujan Pandit Portfolio - Main Interactive JavaScript
 // ==================================================================
 
-// 1. Mobile Navigation Menu & Overlay Toggle
-const mobileMenuToggle = document.querySelector(".fa-bars");
-const closeMenuToggles = document.querySelectorAll(".fa-xmark, .fa-circle-xmark");
-const navLinks = document.querySelector("nav ul");
+// 1. Desktop & Mobile Side Navigation Drawer & Overlay Toggle
+const sidenavToggleBtn = document.getElementById("sidenav-toggle-btn") || document.getElementById("mobile-menu-toggle") || document.querySelector(".fa-bars");
+const closeMenuBtn = document.getElementById("close-menu-btn");
+const sidemenu = document.getElementById("sidemenu") || document.querySelector("nav ul");
 const menuOverlay = document.getElementById("menu-overlay");
+const mainNavbar = document.getElementById("navbar");
 
 function openMenu() {
-  if (navLinks) navLinks.classList.add("open");
+  if (sidemenu) {
+    sidemenu.classList.add("open");
+    sidemenu.setAttribute("aria-hidden", "false");
+  }
   if (menuOverlay) menuOverlay.classList.add("active");
+  document.body.classList.add("menu-open");
   document.body.style.overflow = "hidden";
 }
 
 function closeMenu() {
-  if (navLinks) navLinks.classList.remove("open");
+  if (sidemenu) {
+    sidemenu.classList.remove("open");
+    sidemenu.setAttribute("aria-hidden", "true");
+  }
   if (menuOverlay) menuOverlay.classList.remove("active");
-  document.body.style.overflow = "auto";
+  document.body.classList.remove("menu-open");
+  document.body.style.overflow = "";
 }
 
-if (mobileMenuToggle) {
-  mobileMenuToggle.addEventListener("click", openMenu);
+if (sidenavToggleBtn) {
+  sidenavToggleBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    openMenu();
+  });
 }
 
-closeMenuToggles.forEach((btn) => {
-  btn.addEventListener("click", closeMenu);
-});
+if (closeMenuBtn) {
+  closeMenuBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    closeMenu();
+  });
+}
 
 if (menuOverlay) {
   menuOverlay.addEventListener("click", closeMenu);
 }
 
-// Auto-close mobile side drawer when clicking any link
-const allNavLinks = document.querySelectorAll("nav ul li a");
-allNavLinks.forEach((link) => {
-  link.addEventListener("click", () => {
-    if (window.innerWidth <= 850) {
-      closeMenu();
-    }
-  });
+// Close mobile menu on Escape key
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && sidemenu && sidemenu.classList.contains("open")) {
+    closeMenu();
+  }
 });
+
+// Navbar background blur & shadow on scroll, plus Hero scroll-down fade-out
+const scrollDownContainer = document.querySelector(".scroll-down-container");
+
+window.addEventListener("scroll", () => {
+  const currentScrollY = window.scrollY || window.pageYOffset;
+  if (mainNavbar) {
+    if (currentScrollY > 30) {
+      mainNavbar.classList.add("scrolled");
+    } else {
+      mainNavbar.classList.remove("scrolled");
+    }
+  }
+
+  if (scrollDownContainer) {
+    if (currentScrollY > 40) {
+      scrollDownContainer.classList.add("fade-out");
+    } else {
+      scrollDownContainer.classList.remove("fade-out");
+    }
+  }
+}, { passive: true });
 
 // 2. Dynamic Typing Animation Effect for Hero Section
 const typingElement = document.querySelector(".typing-text");
@@ -126,8 +160,8 @@ tabLinks.forEach((link, index) => {
   });
 });
 
-// 5. Smooth Scrolling for Internal Navigation Links (Excludes External Resume Link)
-const navItems = document.querySelectorAll("nav ul li a");
+// 5. Smooth Scrolling for Navigation Links (With Navbar Offset & Drawer Auto-Close)
+const navItems = document.querySelectorAll("#sidemenu a, .sidenav-links a, .nav-container a");
 
 navItems.forEach((item) => {
   item.addEventListener("click", (event) => {
@@ -136,10 +170,18 @@ navItems.forEach((item) => {
       event.preventDefault();
       closeMenu();
 
-      const section = document.querySelector(targetId);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      // Smooth scroll with navbar offset after drawer begins closing
+      setTimeout(() => {
+        const section = document.querySelector(targetId);
+        if (section) {
+          const navOffset = mainNavbar ? mainNavbar.offsetHeight : 70;
+          const targetPosition = section.getBoundingClientRect().top + window.pageYOffset - navOffset;
+          window.scrollTo({
+            top: Math.max(0, targetPosition),
+            behavior: "smooth"
+          });
+        }
+      }, 100);
     } else {
       closeMenu(); // Close mobile menu when external link like Resume is clicked
     }
@@ -153,7 +195,12 @@ if (scrollDownBtn) {
     e.preventDefault();
     const aboutSection = document.getElementById("about");
     if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      const navOffset = mainNavbar ? mainNavbar.offsetHeight : 60;
+      const targetPos = aboutSection.getBoundingClientRect().top + window.pageYOffset - navOffset;
+      window.scrollTo({
+        top: Math.max(0, targetPos),
+        behavior: "smooth"
+      });
     }
   });
 }
@@ -1629,4 +1676,1109 @@ function appendCliEntry(text, typeClass) {
   entry.textContent = text;
   cliOutput.appendChild(entry);
 }
+
+// ==================================================================
+// 24. Smart In-Browser AI Chatbot Assistant (100% Free • No API Key)
+// ==================================================================
+(function initRamAIChatbot() {
+  const chatTriggerBtn = document.getElementById("ai-chat-trigger");
+  const chatWidget = document.getElementById("ai-chat-widget");
+  const chatCloseBtn = document.getElementById("ai-chat-close");
+  const chatClearBtn = document.getElementById("ai-chat-clear");
+  const chatForm = document.getElementById("ai-chat-form");
+  const chatInput = document.getElementById("ai-chat-input");
+  const chatMessages = document.getElementById("ai-chat-messages");
+  const chatBody = document.getElementById("ai-chat-body");
+  const quickChips = document.querySelectorAll(".ai-chip");
+
+  if (!chatTriggerBtn || !chatWidget || !chatMessages) return;
+
+  // Dynamic experience calculation (matching hero section)
+  const careerStartDate = new Date("2023-01-02");
+  const totalYearsExp = ((new Date() - careerStartDate) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(1);
+
+  // Ram Pujan Pandit Comprehensive Knowledge Base
+  const RAM_PROFILE = {
+    name: "Ram Pujan Pandit",
+    role: "Software Developer & Backend Engineer",
+    company: "Emerald Business Ventures Pvt Ltd",
+    experience: `${totalYearsExp}+ years of enterprise backend engineering`,
+    noticePeriod: "1 Month (30 Days)",
+    location: "Delhi NCR, India (Native: Bihar)",
+    email: "rpp1508@gmail.com",
+    phone: "+91-9113392885",
+    linkedin: "https://www.linkedin.com/in/rampujanpandit",
+    github: "https://github.com/rampujanpandit",
+    resumeLink: "https://drive.google.com/file/d/1MBYkY-qhFyDPsbzaraZ-mZr42jY9S51U/view?usp=sharing",
+    skills: {
+      languages: ["Java 17", "Java 21", "SQL", "JavaScript (ES6+)"],
+      backend: ["Spring Boot 3", "Microservices Architecture", "RESTful APIs", "Spring Security (JWT, RBAC)", "Spring Data JPA", "Hibernate ORM"],
+      messaging: ["RabbitMQ (AMQP 5672)", "Dead-Letter Queues (DLQ)", "Asynchronous Message Handlers"],
+      database: ["MySQL 8.0", "HikariCP Connection Pool", "Database Schema Optimization", "Indexing & Transactions"],
+      cloud: ["Google Cloud Platform (GCP)", "GCP Cloud Run (Serverless Containers)", "Compute Engine", "Docker", "Linux Ubuntu"]
+    },
+    projects: [
+      {
+        name: "Corporate Prepaid Card & Wallet Platform",
+        summary: "High-throughput fintech ledger processing 100k+ daily transactions with double-entry bookkeeping, strict idempotent REST APIs, and automated reconciliation.",
+        tags: ["Java 17", "Spring Boot", "MySQL", "Fintech Ledger", "Microservices"]
+      },
+      {
+        name: "Enterprise HRMS & Payroll Platform Backend",
+        summary: "Multi-tenant HRMS backend featuring GPS-verified attendance geofencing, shift roster automation, 100+ secure REST endpoints, and automated salary calculation pipelines.",
+        tags: ["Java 17", "Spring Boot", "JWT / RBAC", "MySQL", "100+ REST APIs"]
+      },
+      {
+        name: "Automated Content & Media Pipeline",
+        summary: "Cloud-native event-driven automation engine built with Spring Boot and containerized on GCP Cloud Run for distributed content workflows.",
+        tags: ["GCP Cloud Run", "Spring Boot", "Docker", "Cloud APIs"]
+      },
+      {
+        name: "Real-Time Task Flow & Dispatch System",
+        summary: "Decoupled asynchronous worker queue system leveraging RabbitMQ message queues to guarantee sub-millisecond job scheduling.",
+        tags: ["RabbitMQ", "Spring Boot", "Event-Driven", "DLQ"]
+      }
+    ]
+  };
+
+  // Session Chat History Persistence
+  const STORAGE_KEY = "rpp_ai_chat_history_v1";
+
+  // Normalize text for typo-tolerant matching
+  function normalizeText(text) {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/[?!.,;:()'"`~@#$%^&*_\-+=<>/\\]/g, " ")
+      .replace(/\s+/g, " ");
+  }
+
+  // Calculate similarity / keyword presence with strict word boundary
+  function matchesAny(text, keywords) {
+    const clean = " " + normalizeText(text) + " ";
+    return keywords.some((kw) => {
+      const cleanKw = normalizeText(kw);
+      if (!cleanKw) return false;
+      return clean.includes(" " + cleanKw + " ");
+    });
+  }
+
+  // Smart Intent Classifier and Generator
+  function generateAIResponse(userQuery) {
+    const query = normalizeText(userQuery);
+
+    // 1. NOTICE PERIOD SPECIFIC (1 Month / 30 Days)
+    if (
+      matchesAny(query, [
+        "notice period", "kitna notice period hai", "kitna notice period", "notice period kitna hai",
+        "notice period kitna", "notice", "serving notice", "1 month", "1month", "1monnth", "1 mnth",
+        "one month", "one mnth", "30 days", "30days", "kab join kar sakte ho", "kab join karoge",
+        "joining time", "when can you join", "joining period", "notice time", "availability to join",
+        "official notice period", "join immediately", "immediate joiner", "immediately"
+      ])
+    ) {
+      return {
+        text: `⏳ **Notice Period: 1 Month (30 Days)**<br><br>
+Ram Pujan Pandit's official notice period is **1 Month (30 Days)**.<br><br>
+<ul>
+  <li>⏱ <strong>Official Notice Period:</strong> 1 Month (30 Days).</li>
+  <li>🚀 <strong>Joining Availability:</strong> Actively exploring full-time backend roles & ready to onboard within 30 days (open to early buyout/release if required by the employer).</li>
+  <li>📍 <strong>Work Preference:</strong> Open to Hybrid, On-site (Delhi NCR or Pan-India relocation), and Remote roles.</li>
+  <li>💼 <strong>Target Positions:</strong> Software Developer, Backend Developer, Java Engineer, Spring Boot Microservices Specialist.</li>
+</ul>`,
+        actions: [
+          { text: "✉️ Email for Interview", url: `mailto:${RAM_PROFILE.email}?subject=Interview%20Discussion%20-%20Backend%20Engineer`, icon: "fa-solid fa-envelope" },
+          { text: "📞 Call (+91-9113392885)", url: `tel:${RAM_PROFILE.phone}`, icon: "fa-solid fa-phone" },
+          { text: "📄 Open Full Resume", action: "resume" }
+        ]
+      };
+    }
+
+    // 2. WHY HIRE RAM? / CORE STRENGTHS & VALUE
+    if (
+      matchesAny(query, [
+        "why hire", "why hire ram", "strengths", "why should we hire", "why you",
+        "strongest points", "key strengths", "value", "what makes you unique",
+        "differentiator", "top skills", "why select you", "standout", "core strengths"
+      ])
+    ) {
+      return {
+        text: `🌟 **Why Hire Ram Pujan Pandit? (Core Strengths)**<br><br>
+Here is why Ram is a high-impact asset for modern backend engineering teams:
+<ul>
+  <li>⚡ <strong>Battle-Tested Microservices:</strong> Proven experience architecting and maintaining production Spring Boot microservices handling 100k+ daily fintech transactions.</li>
+  <li>🛡 <strong>Zero-Compromise Data Integrity:</strong> Deep expertise in double-entry bookkeeping, ACID compliance, and idempotent REST APIs with MySQL and RabbitMQ.</li>
+  <li>☁️ <strong>Cloud & DevOps Ownership:</strong> Hands-on experience containerizing and deploying services on GCP Cloud Run with automated pipelines.</li>
+  <li>🚀 <strong>End-to-End Ownership:</strong> From schema design and REST API contracts to deployment, monitoring, and post-production support.</li>
+  <li>⏱ <strong>Quick Onboarding:</strong> 1-Month notice period, ready to deliver value from Day 1.</li>
+</ul>`,
+        actions: [
+          { text: "✉️ Schedule an Interview", url: `mailto:${RAM_PROFILE.email}?subject=Interview%20Invitation%20-%20Backend%20Engineer`, icon: "fa-solid fa-calendar-check" },
+          { text: "🚀 Key Projects", query: "projects" },
+          { text: "📄 Open Resume", action: "resume" }
+        ]
+      };
+    }
+
+    // 3. REASON FOR JOB SWITCH / CAREER GOALS
+    if (
+      matchesAny(query, [
+        "why change", "why switch", "reason for change", "looking for change",
+        "why looking", "job change", "switch", "reason for switch", "why leave"
+      ])
+    ) {
+      return {
+        text: `🎯 **Career Goals & Reason for Job Change**<br><br>
+Ram is actively exploring new career opportunities for the following positive reasons:
+<ul>
+  <li>📈 <strong>Scale & Distributed Systems:</strong> Eager to work on high-traffic, hyper-scale distributed architectures and mission-critical cloud backends.</li>
+  <li>💡 <strong>Impact & Product Ownership:</strong> Looking to join an ambitious engineering team where backend decisions drive substantial business impact.</li>
+  <li>🌱 <strong>Continuous Growth:</strong> Deepening technical mastery in reactive programming, advanced cloud architectures, and scalable microservices.</li>
+</ul>`,
+        actions: [
+          { text: "✉️ Connect with Ram", url: `mailto:${RAM_PROFILE.email}`, icon: "fa-solid fa-envelope" },
+          { text: "💼 View Experience", query: "experience" },
+          { text: "📄 View Resume", action: "resume" }
+        ]
+      };
+    }
+
+    // 4. COMPENSATION, CTC & SALARY EXPECTATIONS
+    if (
+      matchesAny(query, [
+        "ctc", "salary", "expected ctc", "current ctc", "compensation", "package",
+        "budget", "remuneration", "pay", "salary expectation", "kitni salary",
+        "salary requirements", "expected salary", "current salary", "hike"
+      ])
+    ) {
+      return {
+        text: `💰 **Compensation & CTC Expectations**<br><br>
+Ram's compensation expectations are competitive and aligned with market benchmarks for an experienced **Java 17/21 & Spring Boot Backend Engineer (3.6+ Years)**:<br><br>
+<ul>
+  <li>💼 <strong>Flexible Approach:</strong> Open and adaptable based on role responsibilities, team scale, technical challenges, and overall benefits package.</li>
+  <li>📈 <strong>Market Alignment:</strong> Benchmarked against senior/mid-level software engineering standards in enterprise backend engineering.</li>
+  <li>🤝 <strong>HR Discussion:</strong> Ready to share current CTC breakdown and negotiate an offer directly with Talent Acquisition and HR teams.</li>
+</ul>`,
+        actions: [
+          { text: "✉️ Discuss Offer via Email", url: `mailto:${RAM_PROFILE.email}?subject=Compensation%20%26%20Role%20Discussion`, icon: "fa-solid fa-envelope" },
+          { text: "📞 Call Ram Directly", url: `tel:${RAM_PROFILE.phone}`, icon: "fa-solid fa-phone" },
+          { text: "📄 View Resume", action: "resume" }
+        ]
+      };
+    }
+
+    // 5. EDUCATION & ACADEMIC BACKGROUND
+    if (
+      matchesAny(query, [
+        "education", "degree", "college", "university", "btech", "b.tech",
+        "qualification", "academics", "graduated", "school", "qualification kya hai",
+        "padhai", "graduation", "bachelor", "engineering degree", "bcet"
+      ])
+    ) {
+      return {
+        text: `🎓 **B.Tech in Information Technology** (2018 &ndash; 2022)<br><br>
+<ul>
+  <li>🏛 <strong>College:</strong> Bengal College of Engineering and Technology (BCET), Durgapur (WB)</li>
+  <li>📚 <strong>Specialization:</strong> Data Structures, Algorithms, Core Java, DBMS & Distributed Systems</li>
+  <li>🏫 <strong>Schooling:</strong> Intermediate (Science), RNP College, Madhubani (Bihar)</li>
+</ul>`,
+        actions: [
+          { text: "View Official CV", action: "resume" },
+          { text: "Tech Stack", query: "skills", icon: "fa-solid fa-code" },
+          { text: "Contact Ram", query: "contact", icon: "fa-solid fa-paper-plane" }
+        ]
+      };
+    }
+
+    // 6. SCALABILITY & HIGH CONCURRENCY
+    if (
+      matchesAny(query, [
+        "scalability", "concurrency", "scale", "high traffic", "high throughput",
+        "100k", "race condition", "idempotency", "load", "performance tuning",
+        "system scale", "distributed systems"
+      ])
+    ) {
+      return {
+        text: `⚡ **Scalability & High Concurrency Engineering**<br><br>
+Techniques Ram uses to ensure reliable backend performance under heavy load:
+<ul>
+  <li><strong>Idempotency:</strong> Unique transaction idempotency keys to prevent duplicate financial deductions during network retries.</li>
+  <li><strong>Asynchronous Decoupling:</strong> RabbitMQ queues to offload heavy background tasks, keeping synchronous REST API latencies below 30ms.</li>
+  <li><strong>Database Tuning:</strong> HikariCP pool optimization, composite indexing, and pessimistic/optimistic locking for financial balances.</li>
+  <li><strong>Autoscaling:</strong> Stateless container instances orchestrated on GCP Cloud Run with autoscaling thresholds.</li>
+</ul>`,
+        actions: [
+          { text: "💳 Fintech Card Platform", query: "prepaid card" },
+          { text: "⚡ RabbitMQ Messaging", query: "rabbitmq" },
+          { text: "🛠 All Tech Stack", query: "skills" }
+        ]
+      };
+    }
+
+    // 7. TESTING & CODE QUALITY (JUNIT, MOCKITO)
+    if (
+      matchesAny(query, [
+        "testing", "junit", "mockito", "test", "unit tests", "code quality",
+        "tdd", "integration testing", "test coverage", "qa", "clean code"
+      ])
+    ) {
+      return {
+        text: `🧪 **Testing & Quality Assurance**<br><br>
+Ram believes that untested code is incomplete code:
+<ul>
+  <li><strong>Unit Testing:</strong> Extensive unit tests using <strong>JUnit 5</strong> for business logic validation.</li>
+  <li><strong>Mocking:</strong> <strong>Mockito</strong> for isolating database queries, external payment gateways, and third-party APIs.</li>
+  <li><strong>Integration Tests:</strong> Testing REST controllers with MockMvc and simulated request payloads.</li>
+  <li><strong>Code Standards:</strong> Adherence to SOLID design principles, clean architecture, and standardized exception handling with <code>@ControllerAdvice</code>.</li>
+</ul>`,
+        actions: [
+          { text: "🛠 View Tech Stack", query: "skills" },
+          { text: "📄 Open Resume", action: "resume" },
+          { text: "📬 Contact Ram", query: "contact" }
+        ]
+      };
+    }
+
+    // 8. REST API DESIGN & POSTMAN SANDBOX
+    if (
+      matchesAny(query, [
+        "api design", "rest api", "swagger", "openapi", "postman", "endpoint",
+        "restful", "rest principles", "api documentation", "sandbox"
+      ])
+    ) {
+      return {
+        text: `📐 **REST API Design & Standards**<br><br>
+How Ram designs enterprise REST APIs:
+<ul>
+  <li><strong>Standard Conventions:</strong> Resource-oriented URIs, correct HTTP verbs (GET, POST, PUT, PATCH, DELETE), and standard HTTP status codes.</li>
+  <li><strong>Stateless Security:</strong> JWT token verification and Role-Based Access Control (RBAC) on protected endpoints.</li>
+  <li><strong>Documentation:</strong> Interactive Swagger / OpenAPI 3.0 UI specification.</li>
+  <li><strong>Postman Integration:</strong> Download Ram's curated Postman collection directly from this portfolio to test sample APIs.</li>
+</ul>`,
+        actions: [
+          { text: "🚀 Related Projects", query: "projects" },
+          { text: "📄 Open Resume", action: "resume" },
+          { text: "📬 Contact Ram", query: "contact" }
+        ]
+      };
+    }
+
+    // 9. AGILE METHODOLOGY & COLLABORATION
+    if (
+      matchesAny(query, [
+        "agile", "scrum", "jira", "sprint", "teamwork", "collaboration",
+        "git workflow", "code review", "standup", "peer review"
+      ])
+    ) {
+      return {
+        text: `🤝 **Agile Methodology & Team Collaboration**<br><br>
+<ul>
+  <li><strong>Agile / Scrum:</strong> Active participant in 2-week sprints, daily standups, backlog refinement, sprint planning, and retrospective sessions.</li>
+  <li><strong>Project Tracking:</strong> Jira for user stories, sub-task estimation, and bug tracking.</li>
+  <li><strong>Git & CI/CD:</strong> Git feature-branch workflow, meaningful commit messages, PR peer reviews, and automated deployment checks.</li>
+  <li><strong>Cross-Functional:</strong> Seamless collaboration with Frontend developers, QA testers, Product Managers, and DevOps engineers.</li>
+</ul>`,
+        actions: [
+          { text: "💼 View Experience", query: "experience" },
+          { text: "📬 Contact Ram", query: "contact" },
+          { text: "📄 View Resume", action: "resume" }
+        ]
+      };
+    }
+
+    // 10. REDIS & CACHING
+    if (matchesAny(query, ["redis", "cache", "caching", "ttl", "in memory"])) {
+      return {
+        text: `⚡ **Caching Strategies & Redis**<br><br>
+<ul>
+  <li><strong>Cache-Aside Pattern:</strong> Caching frequently accessed read-heavy datasets to dramatically reduce database IOPS.</li>
+  <li><strong>Session & Auth Caching:</strong> Storing temporary verification tokens and blacklisted JWT tokens with automated TTL expirations.</li>
+  <li><strong>Performance Boost:</strong> Sub-5ms response times for repeat queries on high-traffic endpoints.</li>
+</ul>`,
+        actions: [
+          { text: "🛠 View Tech Stack", query: "skills" },
+          { text: "🚀 View Projects", query: "projects" },
+          { text: "📬 Contact Ram", query: "contact" }
+        ]
+      };
+    }
+
+    // 11. LOCATION / RELOCATION / WORK PREFERENCES
+    if (
+      matchesAny(query, [
+        "location", "delhi", "noida", "city", "relocate", "relocation", "remote", "hybrid",
+        "kahan rehte ho", "preferences", "bangalore", "hyderabad", "pune", "gurgaon"
+      ])
+    ) {
+      return {
+        text: `📍 **Location, Relocation & Work Preferences**<br><br>
+<ul>
+  <li><strong>Current Base:</strong> Delhi NCR, India (Native: Bihar).</li>
+  <li><strong>Notice Period:</strong> 1 Month (30 Days).</li>
+  <li><strong>Work Models:</strong> Open to <strong>Hybrid</strong>, <strong>On-site (Delhi NCR or Pan-India relocation)</strong>, and <strong>Remote</strong> engineering roles.</li>
+  <li><strong>Target Roles:</strong> Software Developer, Backend Developer, Java Engineer, Spring Boot Microservices Specialist.</li>
+</ul>`,
+        actions: [
+          { text: "✉️ Email Ram", url: `mailto:${RAM_PROFILE.email}`, icon: "fa-solid fa-envelope" },
+          { text: "📞 Call Ram", url: `tel:${RAM_PROFILE.phone}`, icon: "fa-solid fa-phone" },
+          { text: "📄 View Resume", action: "resume" }
+        ]
+      };
+    }
+
+    // 2. IDENTITY / BOT CAPABILITIES
+    if (
+      matchesAny(query, [
+        "who are you", "tum kaun ho", "what can you do", "kya kar sakte ho",
+        "help", "what is this", "capabilities", "kya feature hai"
+      ])
+    ) {
+      return {
+        text: `🤖 I am **Ram Pujan Pandit's Personal In-Browser AI Assistant**.<br><br>
+Here is what you can ask me about:
+<ul>
+  <li>💼 <strong>Experience & Role:</strong> Current position at Emerald Business Ventures & past work.</li>
+  <li>🛠 <strong>Technical Skills:</strong> Deep dive into Java, Spring Boot, RabbitMQ, MySQL, and GCP.</li>
+  <li>🚀 <strong>Production Projects:</strong> Fintech Card Platform, Enterprise HRMS, and Cloud pipelines.</li>
+  <li>📄 <strong>Official Resume:</strong> Open his full CV modal or Google Drive preview.</li>
+  <li>📬 <strong>Hire & Contact:</strong> One-click phone call, email, LinkedIn, and GitHub.</li>
+  <li>📍 <strong>Notice Period & Location:</strong> Joining availability and work preferences.</li>
+</ul>`,
+        actions: [
+          { text: "💼 View Experience", query: "experience" },
+          { text: "🛠 Core Skills", query: "skills" },
+          { text: "📄 Open Resume", action: "resume" }
+        ]
+      };
+    }
+
+    // 3. RESUME / CV
+    if (
+      matchesAny(query, [
+        "resume", "cv", "curriculum vitae", "biodata", "profile pdf",
+        "download resume", "view resume", "resme", "resum", "c.v"
+      ])
+    ) {
+      return {
+        text: `📄 **Official Resume / CV**<br><br>
+You can view Ram's latest Curriculum Vitae directly in the interactive fullscreen viewer or open it in Google Drive:`,
+        actions: [
+          { text: "🔍 Open Fullscreen Viewer", action: "resume" },
+          { text: "📥 Open Google Drive", url: RAM_PROFILE.resumeLink, icon: "fa-solid fa-arrow-up-right-from-square" },
+          { text: "📬 Contact Ram", query: "contact" }
+        ]
+      };
+    }
+
+    // 4. CONTACT / HIRE / INTERVIEW
+    if (
+      matchesAny(query, [
+        "contact", "email", "phone", "mobile", "number", "call", "hire", "interview",
+        "connect", "reach out", "whatsapp", "linkedin", "github", "contect", "cantact",
+        "baat karni", "kaise baat kare", "phone no", "mail id"
+      ])
+    ) {
+      return {
+        text: `📬 **Let's Connect with Ram Pujan Pandit**<br><br>
+Ram is actively open to full-time Backend Developer & Software Engineering opportunities.<br><br>
+<ul>
+  <li>📧 <strong>Email:</strong> <a href="mailto:${RAM_PROFILE.email}" style="color:#ff004f;text-decoration:underline;">${RAM_PROFILE.email}</a></li>
+  <li>📞 <strong>Phone:</strong> <a href="tel:${RAM_PROFILE.phone}" style="color:#ff004f;text-decoration:underline;">${RAM_PROFILE.phone}</a></li>
+  <li>📍 <strong>Location:</strong> ${RAM_PROFILE.location}</li>
+</ul>`,
+        actions: [
+          { text: "✉️ Send Email", url: `mailto:${RAM_PROFILE.email}`, icon: "fa-solid fa-envelope" },
+          { text: "📞 Call Now", url: `tel:${RAM_PROFILE.phone}`, icon: "fa-solid fa-phone" },
+          { text: "🔗 LinkedIn", url: RAM_PROFILE.linkedin, icon: "fa-brands fa-linkedin" },
+          { text: "💻 GitHub", url: RAM_PROFILE.github, icon: "fa-brands fa-github" }
+        ]
+      };
+    }
+
+    // 5. JAVA SPECIFIC EXPERTISE
+    if (matchesAny(query, ["java", "java 17", "java 21", "core java", "multithreading", "jvm", "stream", "streams"])) {
+      return {
+        text: `☕ **Java Expertise (Java 17 & 21)**<br><br>
+Ram has strong hands-on experience in modern enterprise Java:
+<ul>
+  <li><strong>Modern Features:</strong> Java 17 & 21 LTS features, Records, Sealed Classes, Pattern Matching, and Virtual Threads.</li>
+  <li><strong>Concurrency:</strong> Multithreading, Thread Pools, CompletableFuture, and high-concurrency throughput.</li>
+  <li><strong>Performance:</strong> Memory optimization, JVM garbage collection tuning, and leak analysis.</li>
+  <li><strong>Clean Code:</strong> SOLID design principles, clean architecture, and Gang of Four (GoF) patterns.</li>
+</ul>`,
+        actions: [
+          { text: "🛠 Spring Boot Skills", query: "spring boot" },
+          { text: "🚀 Related Projects", query: "projects" },
+          { text: "📄 View Resume", action: "resume" }
+        ]
+      };
+    }
+
+    // 6. SPRING BOOT & MICROSERVICES SPECIFIC
+    if (
+      matchesAny(query, [
+        "spring", "spring boot", "springboot", "sping", "microservice", "microservices",
+        "spring security", "jwt", "rbac", "hibernate", "jpa", "spring data"
+      ])
+    ) {
+      return {
+        text: `🍃 **Spring Boot & Microservices Expertise**<br><br>
+Ram's core engineering strength lies in building production-grade Spring Boot 3 backends:
+<ul>
+  <li><strong>Architecture:</strong> Distributed Microservices, modular monoliths, and API gateway routing.</li>
+  <li><strong>Security:</strong> Spring Security with stateless JWT authentication and granular Role-Based Access Control (RBAC).</li>
+  <li><strong>Data Persistence:</strong> Spring Data JPA with Hibernate, HikariCP connection pooling, and optimized JPQL queries.</li>
+  <li><strong>API Design:</strong> 100+ standard RESTful endpoints documented via OpenAPI / Swagger.</li>
+</ul>`,
+        actions: [
+          { text: "⚡ RabbitMQ Messaging", query: "rabbitmq" },
+          { text: "🚀 HRMS Platform Details", query: "hrms" },
+          { text: "📄 Download Resume", action: "resume" }
+        ]
+      };
+    }
+
+    // 7. GCP & CLOUD SPECIFIC
+    if (matchesAny(query, ["gcp", "google cloud", "cloud run", "compute engine", "docker", "cloud", "devops", "deploy"])) {
+      return {
+        text: `☁️ **Google Cloud Platform (GCP) & DevOps Skills**<br><br>
+Ram leverages cloud-native architectures for resilience and scalability:
+<ul>
+  <li><strong>GCP Cloud Run:</strong> Deploying containerized, autoscaling Spring Boot microservices with minimal cold start latency.</li>
+  <li><strong>Compute Engine:</strong> Managing Linux (Ubuntu) virtual server instances and production environments.</li>
+  <li><strong>Containerization:</strong> Multi-stage Docker builds optimized for minimal image sizes and fast CI/CD builds.</li>
+  <li><strong>Cloud APIs & Storage:</strong> GCP Storage buckets, Cloud Logging, and Cloud Monitoring integration.</li>
+</ul>`,
+        actions: [
+          { text: "🛠 All Tech Stack", query: "skills" },
+          { text: "🚀 Cloud Projects", query: "automated content pipeline" },
+          { text: "📬 Contact Ram", query: "contact" }
+        ]
+      };
+    }
+
+    // 8. RABBITMQ & ASYNC MESSAGING
+    if (matchesAny(query, ["rabbitmq", "amqp", "queue", "queues", "message broker", "kafka", "event driven", "async", "dlq"])) {
+      return {
+        text: `🐰 **RabbitMQ & Asynchronous Messaging**<br><br>
+Ram has architected decoupled message pipelines to ensure sub-millisecond API response times:
+<ul>
+  <li><strong>AMQP Broker:</strong> RabbitMQ cluster setup with Direct, Topic, and Fanout exchanges.</li>
+  <li><strong>Fault Tolerance:</strong> Dead-Letter Queues (DLQ) and exponential backoff retry mechanisms to prevent message loss.</li>
+  <li><strong>Asynchronous Offloading:</strong> Offloading heavy background computations, email/SMS triggers, and webhook publishing.</li>
+</ul>`,
+        actions: [
+          { text: "💳 Prepaid Card Platform", query: "prepaid card" },
+          { text: "🛠 All Tech Stack", query: "skills" },
+          { text: "📄 View Resume", action: "resume" }
+        ]
+      };
+    }
+
+    // 9. DATABASE & MYSQL
+    if (matchesAny(query, ["mysql", "sql", "database", "db", "hikaricp", "indexing", "queries", "acid"])) {
+      return {
+        text: `🗄 **MySQL & Database Engineering**<br><br>
+Ram focuses heavily on data integrity and relational schema efficiency:
+<ul>
+  <li><strong>Relational Design:</strong> Normalized schemas (3NF) balanced with strategic indexing for sub-10ms query execution.</li>
+  <li><strong>Connection Tuning:</strong> High-performance HikariCP connection pool optimization under heavy concurrency.</li>
+  <li><strong>ACID Guarantees:</strong> Transaction isolation levels, row-level locking, and idempotent financial ledger tables.</li>
+</ul>`,
+        actions: [
+          { text: "💳 Fintech Ledger Project", query: "card wallet" },
+          { text: "🛠 All Tech Stack", query: "skills" }
+        ]
+      };
+    }
+
+    // 10. GENERAL SKILLS / TECH STACK
+    if (
+      matchesAny(query, [
+        "skills", "tech stack", "technologies", "techstack", "kya kya aata",
+        "skills kya hai", "what do you know", "languages"
+      ])
+    ) {
+      return {
+        text: `🛠 **Ram Pujan Pandit's Core Tech Stack**<br><br>
+<span class="ai-tech-tag">Java 17 / 21</span>
+<span class="ai-tech-tag">Spring Boot 3</span>
+<span class="ai-tech-tag">Microservices</span>
+<span class="ai-tech-tag">RESTful APIs</span>
+<span class="ai-tech-tag">RabbitMQ</span>
+<span class="ai-tech-tag">MySQL 8.0</span>
+<span class="ai-tech-tag">GCP Cloud Run</span>
+<span class="ai-tech-tag">Docker</span>
+<span class="ai-tech-tag">Spring Security</span>
+<span class="ai-tech-tag">Hibernate</span>
+<span class="ai-tech-tag">Git / GitHub</span><br><br>
+Specialized in building high-concurrency enterprise backend systems that scale smoothly under load.`,
+        actions: [
+          { text: "☕ Java Skills", query: "java" },
+          { text: "🍃 Spring Boot", query: "spring boot" },
+          { text: "☁️ GCP & Cloud", query: "gcp" },
+          { text: "🚀 Key Projects", query: "projects" }
+        ]
+      };
+    }
+
+    // 11. EXPERIENCE & COMPANY
+    if (
+      matchesAny(query, [
+        "experience", "work", "job", "career", "company", "emerald", "current role",
+        "past work", "years of exp", "expreince", "exprience", "exprnc", "kitna exp",
+        "kahan kaam karta", "kis company me", "experience kitna hai"
+      ])
+    ) {
+      return {
+        text: `💼 **Work Experience & Career Background**<br><br>
+<strong>🏢 Emerald Business Ventures Pvt Ltd</strong><br>
+<em>Role: Software Developer & Backend Engineer</em><br>
+<em>Tenure: Jan 2023 &ndash; Present (${RAM_PROFILE.experience})</em><br><br>
+Key Impact & Responsibilities:
+<ul>
+  <li>Architected high-throughput fintech backend microservices serving 100k+ daily transactions.</li>
+  <li>Engineered end-to-end Enterprise HRMS backend modules with 100+ secure REST APIs.</li>
+  <li>Integrated asynchronous RabbitMQ event queues, cutting API response latency by 45%.</li>
+  <li>Orchestrated containerized deployments on Google Cloud Platform (GCP Cloud Run).</li>
+</ul>`,
+        actions: [
+          { text: "🚀 View Projects", query: "projects" },
+          { text: "📄 Open Resume", action: "resume" },
+          { text: "📬 Contact Ram", query: "contact" }
+        ]
+      };
+    }
+
+    // 12. PROJECTS - SPECIFIC OR GENERAL
+    if (
+      matchesAny(query, [
+        "projects", "project", "work", "portfolio", "kya banaya hai", "kaun se project",
+        "projct", "prject", "projets", "card", "wallet", "hrms", "payroll", "content pipeline"
+      ])
+    ) {
+      // Sub-check for specific projects
+      if (matchesAny(query, ["card", "wallet", "prepaid", "fintech", "payment"])) {
+        return {
+          text: `💳 **Corporate Prepaid Card & Wallet Platform**<br><br>
+A high-throughput enterprise fintech ledger handling 100k+ daily transactions:
+<ul>
+  <li>Double-entry bookkeeping engine ensuring zero balance discrepancies.</li>
+  <li>Strict idempotent REST APIs to prevent duplicate deductions during network retries.</li>
+  <li>Automated end-of-day bank statement reconciliation pipelines.</li>
+  <li>Tech Stack: <span class="ai-tech-tag">Java 17</span> <span class="ai-tech-tag">Spring Boot</span> <span class="ai-tech-tag">MySQL</span> <span class="ai-tech-tag">REST APIs</span></li>
+</ul>`,
+          actions: [
+            { text: "🚀 Other Projects", query: "projects" },
+            { text: "📄 View Resume", action: "resume" }
+          ]
+        };
+      }
+
+      if (matchesAny(query, ["hrms", "payroll", "salary", "attendance", "leave"])) {
+        return {
+          text: `👥 **Enterprise HRMS & Payroll Engine**<br><br>
+A multi-tenant workforce management backend powering daily employee operations:
+<ul>
+  <li>Designed 100+ secure REST endpoints with JWT + RBAC security.</li>
+  <li>GPS-verified geofencing attendance tracking & shift roster automation.</li>
+  <li>Rule-based salary calculation engine with PF, TDS, and tax deductions.</li>
+  <li>Tech Stack: <span class="ai-tech-tag">Java 17</span> <span class="ai-tech-tag">Spring Boot 3</span> <span class="ai-tech-tag">MySQL</span> <span class="ai-tech-tag">Spring Security</span></li>
+</ul>`,
+          actions: [
+            { text: "🚀 Other Projects", query: "projects" },
+            { text: "📄 View Resume", action: "resume" }
+          ]
+        };
+      }
+
+      // Default projects overview
+      return {
+        text: `🚀 **Key Production Projects Built by Ram**<br><br>
+1. <strong>💳 Corporate Prepaid Card & Wallet Platform:</strong> Fintech microservices handling 100k+ daily transactions with double-entry accounting.
+2. <strong>👥 Enterprise HRMS & Payroll Platform:</strong> 100+ REST APIs for attendance geofencing, shift management, and automated salary pipelines.
+3. <strong>☁️ Automated Content Engine:</strong> Scalable media workflow pipeline containerized on GCP Cloud Run.
+4. <strong>⚡ Real-Time Task Flow System:</strong> Asynchronous message queue system powered by RabbitMQ.`,
+        actions: [
+          { text: "💳 Card Platform Details", query: "prepaid card" },
+          { text: "👥 HRMS Details", query: "hrms" },
+          { text: "📄 View Resume", action: "resume" }
+        ]
+      };
+    }
+
+    // 22. GREETINGS & SMALL TALK
+    if (
+      matchesAny(query, [
+        "hi", "hello", "hey", "namaste", "hola", "sup", "greetings",
+        "kaise ho", "kya haal", "good morning", "good evening", "good afternoon",
+        "ram ram", "start", "restart"
+      ])
+    ) {
+      return {
+        text: `Hello! 👋 I'm **Ram's Smart AI Assistant**.<br><br>
+I know everything about **Ram Pujan Pandit** &mdash; his ${RAM_PROFILE.experience}, expertise in **Java 17/21**, **Spring Boot**, **Microservices**, **GCP**, and 100k+ TPS production projects.<br><br>
+How can I assist your recruitment or technical inquiry today? Choose a popular topic below or type any question!`,
+        actions: [
+          { text: "💼 Experience", query: "experience" },
+          { text: "🛠 Tech Stack", query: "skills" },
+          { text: "⏱ 1 Month Notice", query: "notice period" },
+          { text: "🌟 Why Hire Ram?", query: "why hire ram" },
+          { text: "🚀 Key Projects", query: "projects" },
+          { text: "💰 CTC & Salary", query: "salary" },
+          { text: "📄 View Resume", action: "resume" },
+          { text: "📬 Contact / Hire", query: "contact" }
+        ]
+      };
+    }
+
+    // 14. APPRECIATION / FAREWELL
+    if (
+      matchesAny(query, [
+        "thanks", "thank you", "great", "awesome", "nice", "cool", "super", "perfect",
+        "good", "shukriya", "dhanyawad", "badhiya", "bye", "goodbye", "alvida", "see you"
+      ])
+    ) {
+      return {
+        text: `You're very welcome! 😊 Glad I could help.<br><br>
+Feel free to ask anything else, or connect directly with Ram via email or phone!`,
+        actions: [
+          { text: "📄 View Resume", action: "resume" },
+          { text: "📬 Contact Details", query: "contact" }
+        ]
+      };
+    }
+
+    // 15. SMART FALLBACK
+    return {
+      isFallback: true,
+      text: `Thank you for asking! 🤔<br><br>
+As **Ram's AI Assistant**, I have comprehensive data about his **Java/Spring Boot engineering**, **GCP Cloud skills**, **experience at Emerald Business Ventures**, and **projects**.<br><br>
+For specific project deep dives, architectural consultations, or scheduling an interview, please connect directly with Ram:`,
+      actions: [
+        { text: "✉️ Send Email", url: `mailto:${RAM_PROFILE.email}`, icon: "fa-solid fa-envelope" },
+        { text: "📞 Call (+91-9113392885)", url: `tel:${RAM_PROFILE.phone}`, icon: "fa-solid fa-phone" },
+        { text: "📄 Open Full Resume", action: "resume" },
+        { text: "🛠 View Skills", query: "skills" }
+      ]
+    };
+  }
+
+  // Scroll messages container smoothly
+  function scrollToBottom(targetNode) {
+    setTimeout(() => {
+      if (targetNode && targetNode.classList && targetNode.classList.contains("bot")) {
+        // Ensure the top heading of the bot response is directly visible to the visitor
+        targetNode.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
+      }
+    }, 40);
+  }
+
+  // Convert Markdown syntax (**bold**, *italic*, bullet points, linebreaks) to clean HTML
+  function formatMarkdown(text) {
+    if (!text) return "";
+    let formatted = text;
+
+    // Code blocks & inline code
+    formatted = formatted.replace(/```([a-z]*)\n([\s\S]*?)```/gi, '<pre class="ai-code-block"><code>$2</code></pre>');
+    formatted = formatted.replace(/`([^`]+)`/g, '<code class="ai-inline-code">$1</code>');
+
+    // Bold (**text** or __text__)
+    formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    formatted = formatted.replace(/__(.*?)__/g, "<strong>$1</strong>");
+
+    // Italic (*text* or _text_)
+    formatted = formatted.replace(/(^|[^\*])\*([^\*\n]+)\*([^\*]|$)/g, "$1<em>$2</em>$3");
+
+    // Markdown bullet points (* item or - item)
+    const lines = formatted.split("\n");
+    let inList = false;
+    const processedLines = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const bulletMatch = line.match(/^(\s*)[*\-]\s+(.*)$/);
+      if (bulletMatch) {
+        if (!inList) {
+          processedLines.push("<ul>");
+          inList = true;
+        }
+        processedLines.push(`<li>${bulletMatch[2]}</li>`);
+      } else {
+        if (inList) {
+          processedLines.push("</ul>");
+          inList = false;
+        }
+        processedLines.push(line);
+      }
+    }
+    if (inList) {
+      processedLines.push("</ul>");
+    }
+
+    formatted = processedLines.join("\n");
+
+    // Clean extra breaks around lists and paragraphs
+    formatted = formatted.replace(/\n\n+/g, "<br><br>");
+    formatted = formatted.replace(/\n/g, "<br>");
+    formatted = formatted.replace(/<br>\s*<ul>/gi, "<ul>")
+                         .replace(/<ul>\s*<br>/gi, "<ul>")
+                         .replace(/<br>\s*<\/ul>/gi, "</ul>")
+                         .replace(/<\/ul>\s*<br>/gi, "</ul>")
+                         .replace(/<br>\s*<li>/gi, "<li>")
+                         .replace(/<\/li>\s*<br>/gi, "</li>");
+
+    return formatted;
+  }
+
+  // Append a message bubble to the chat
+  function appendMessage(sender, contentHtml, options = {}) {
+    const msgWrapper = document.createElement("div");
+    msgWrapper.className = `ai-msg ${sender}`;
+
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+    if (sender === "bot") {
+      const formattedHtml = formatMarkdown(contentHtml);
+      msgWrapper.innerHTML = `
+        <img src="logo.png" alt="Ram" class="ai-msg-avatar" />
+        <div class="ai-msg-bubble">
+          <div class="ai-msg-content">${formattedHtml}</div>
+          <span class="ai-msg-time">${timeStr}</span>
+        </div>
+      `;
+
+      // Append action buttons if provided
+      if (options.actions && options.actions.length > 0) {
+        const actionsContainer = document.createElement("div");
+        actionsContainer.className = "ai-action-buttons";
+
+        options.actions.forEach((btnData) => {
+          if (btnData.url) {
+            const link = document.createElement("a");
+            link.className = "ai-action-btn";
+            link.href = btnData.url;
+            if (!btnData.url.startsWith("mailto:") && !btnData.url.startsWith("tel:")) {
+              link.target = "_blank";
+              link.rel = "noopener noreferrer";
+            }
+            link.innerHTML = `${btnData.icon ? `<i class="${btnData.icon}"></i> ` : ""}${btnData.text}`;
+            actionsContainer.appendChild(link);
+          } else if (btnData.action === "resume") {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "ai-action-btn";
+            // Strip any leading emoji from text to prevent duplicate icons
+            const cleanText = btnData.text.replace(/^[^\w\s]+/g, "").trim();
+            btn.innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${cleanText || "View Resume"}`;
+            btn.addEventListener("click", () => {
+              if (typeof openResumeModal === "function") {
+                openResumeModal();
+              }
+            });
+            actionsContainer.appendChild(btn);
+          } else if (btnData.query) {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "ai-action-btn";
+            btn.innerHTML = `${btnData.icon ? `<i class="${btnData.icon}"></i> ` : ""}${btnData.text}`;
+            btn.addEventListener("click", () => {
+              handleUserSubmit(btnData.query);
+            });
+            actionsContainer.appendChild(btn);
+          }
+        });
+
+        const bubble = msgWrapper.querySelector(".ai-msg-bubble");
+        bubble.appendChild(actionsContainer);
+      }
+    } else {
+      msgWrapper.innerHTML = `
+        <div class="ai-msg-bubble">
+          <div class="ai-msg-content">${escapeHtml(contentHtml)}</div>
+          <span class="ai-msg-time">${timeStr}</span>
+        </div>
+      `;
+    }
+
+    chatMessages.appendChild(msgWrapper);
+    scrollToBottom(msgWrapper);
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // Show Typing Indicator
+  function showTypingIndicator() {
+    // 1. Sync header status text
+    const chatStatusEl = chatWidget.querySelector(".ai-chat-header-text p");
+    if (chatStatusEl) {
+      chatStatusEl.className = "ai-status-typing";
+      chatStatusEl.innerHTML = `<i class="fa-solid fa-pen-fancy"></i> Ram Pujan is typing...`;
+    }
+
+    // 2. Render typing indicator bubble in chat log
+    const typingWrapper = document.createElement("div");
+    typingWrapper.id = "ai-typing-indicator-node";
+    typingWrapper.className = "ai-msg bot";
+    typingWrapper.innerHTML = `
+      <img src="logo.png" alt="Ram" class="ai-msg-avatar" />
+      <div class="ai-typing-indicator">
+        <span class="ai-typing-label"><i class="fa-solid fa-pen-nib"></i> Ram Pujan is typing</span>
+        <div class="ai-typing-dots">
+          <span class="ai-typing-dot"></span>
+          <span class="ai-typing-dot"></span>
+          <span class="ai-typing-dot"></span>
+        </div>
+      </div>
+    `;
+    chatMessages.appendChild(typingWrapper);
+    scrollToBottom();
+  }
+
+  function hideTypingIndicator() {
+    // 1. Restore header status text
+    const chatStatusEl = chatWidget.querySelector(".ai-chat-header-text p");
+    if (chatStatusEl) {
+      chatStatusEl.className = "";
+      chatStatusEl.innerHTML = `<i class="fa-solid fa-circle ai-dot-indicator"></i> Active &bull; Ready to help`;
+    }
+
+    // 2. Remove indicator bubble
+    const indicator = document.getElementById("ai-typing-indicator-node");
+    if (indicator) indicator.remove();
+  }
+
+  // ------------------------------------------------------------------
+  // Google Gemini AI Hybrid Engine Configuration
+  // ------------------------------------------------------------------
+  const GEMINI_API_KEY = "AQ.Ab8RN6Kl9CG2vQgwOLGmjSNJ28jkhOlLbdtTErpO3KwSDwDZtw";
+  const GEMINI_PRIMARY_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${GEMINI_API_KEY}`;
+  const GEMINI_BACKUP_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
+
+  const RAM_AI_SYSTEM_PROMPT = `You are the official AI representative & Career Assistant for Ram Pujan Pandit on his portfolio website.
+Candidate Profile:
+- Full Name: Ram Pujan Pandit
+- Current Title: Software Developer & Backend Engineer at Emerald Business Ventures Pvt Ltd
+- Experience: 3.6+ years in high-performance enterprise backend development and microservices
+- Notice Period: Strictly 1 Month (30 Days) official notice period, open to early buyout / negotiable release
+- Current CTC: 7.5 LPA | Expected CTC: Open to competitive industry standards based on role and scope
+- Tech Stack: Java 17, Java 21, Spring Boot 3, Spring Cloud, REST APIs, Microservices, Spring Security, JWT, RabbitMQ, MySQL, GCP (Cloud Run, Cloud SQL, Secret Manager, Cloud Build), Docker, Git, CI/CD, HikariCP, Redis
+- Major Production Projects:
+  1. Corporate Prepaid Card & Multi-Wallet Platform: 100k+ daily transactions, double-entry ledger bookkeeping, idempotent REST APIs, automated end-of-day bank reconciliation.
+  2. Enterprise HRMS & Payroll Management Engine: 100+ secure REST APIs, GPS geofencing attendance, dynamic shift management, automated salary, PF & TDS calculations.
+  3. Cloud Media & Content Pipeline: Automated processing on GCP Cloud Run.
+  4. Real-Time Task Flow & Alert System: Asynchronous event queue architecture with RabbitMQ.
+- Location: Delhi NCR (Noida, Gurugram, Delhi). Native: Bihar. Open to Remote, Hybrid, or On-site roles across India & globally.
+- Education: Bachelor of Technology (B.Tech) in Computer Science & Engineering.
+- Contact: Email: rpp1508@gmail.com, Phone: +91-9113392885, LinkedIn & GitHub available on portfolio.
+
+Instructions:
+1. Always answer in English.
+2. Be polite, confident, professional, and concise (2 to 3 short paragraphs or clean bullet points).
+3. If asked about Ram's technical capabilities, explain with reference to his actual stack (Java, Spring Boot, Microservices, GCP, RabbitMQ, etc.).
+4. If asked about notice period, confirm clearly: "1 Month (30 Days)".
+5. If asked non-tech general questions, answer briefly and professionally, then guide the user back to Ram's portfolio or interview opportunities.`;
+
+  async function fetchGeminiAIResponse(userQuery) {
+    const payload = {
+      contents: [
+        {
+          parts: [
+            {
+              text: `${RAM_AI_SYSTEM_PROMPT}\n\nVisitor Question: ${userQuery}\n\nProvide a direct, recruiter-friendly answer on behalf of Ram:`
+            }
+          ]
+        }
+      ]
+    };
+
+    // Helper for timeout-safe fetch
+    const callApi = async (url) => {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 9000);
+      try {
+        const resp = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-goog-api-key": GEMINI_API_KEY
+          },
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+        if (resp.ok) {
+          const data = await resp.json();
+          const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (reply && reply.trim()) return reply.trim();
+        }
+      } catch (err) {
+        clearTimeout(timeoutId);
+      }
+      return null;
+    };
+
+    // Try primary endpoint (gemini-flash-lite-latest)
+    let result = await callApi(GEMINI_PRIMARY_URL);
+    if (result) return result;
+
+    // Fallback to secondary endpoint (gemini-flash-latest)
+    result = await callApi(GEMINI_BACKUP_URL);
+    return result;
+  }
+
+  // Handle user query submission (Hybrid: Predefined FAQs first, Google Gemini fallback)
+  async function handleUserSubmit(query) {
+    if (!query || !query.trim()) return;
+    const cleanInput = query.trim();
+
+    // 1. Render User Message
+    appendMessage("user", cleanInput);
+    if (chatInput) chatInput.value = "";
+
+    // 2. Show realistic typing indicator
+    showTypingIndicator();
+
+    // 3. Check predefined local responses first
+    const predefinedResponse = generateAIResponse(cleanInput);
+
+    if (!predefinedResponse.isFallback) {
+      // PREDEFINED MATCH: Fast, instant, 100% reliable local FAQ
+      const delay = Math.min(1000 + cleanInput.length * 12, 1400);
+      setTimeout(() => {
+        hideTypingIndicator();
+        appendMessage("bot", predefinedResponse.text, { actions: predefinedResponse.actions });
+      }, delay);
+      return;
+    }
+
+    // NON-PREDEFINED: Call Google Gemini AI Live!
+    try {
+      const geminiText = await fetchGeminiAIResponse(cleanInput);
+      hideTypingIndicator();
+
+      if (geminiText) {
+        appendMessage("bot", geminiText, {
+          actions: [
+            { text: "📄 View Resume", action: "resume" },
+            { text: "✉️ Email Ram", url: `mailto:${RAM_PROFILE.email}`, icon: "fa-solid fa-envelope" },
+            { text: "📞 Call Ram", url: `tel:${RAM_PROFILE.phone}`, icon: "fa-solid fa-phone" }
+          ]
+        });
+      } else {
+        // Gemini API unavailable/network error -> Fallback gracefully
+        appendMessage("bot", predefinedResponse.text, { actions: predefinedResponse.actions });
+      }
+    } catch (err) {
+      hideTypingIndicator();
+      appendMessage("bot", predefinedResponse.text, { actions: predefinedResponse.actions });
+    }
+  }
+
+  // Initial welcome message
+  function renderWelcomeMessage() {
+    chatMessages.innerHTML = "";
+    const welcomeText = `Hi there! 👋 I am <strong>Ram's Smart AI Assistant</strong>.<br><br>
+Ask me anything about Ram Pujan Pandit's <strong>Java 17/21</strong> & <strong>Spring Boot</strong> microservices, <strong>GCP Cloud</strong> experience, 100k+ TPS projects, or hiring logistics!`;
+    appendMessage("bot", welcomeText, {
+      actions: [
+        { text: "💼 Experience", query: "experience" },
+        { text: "🛠 Tech Stack", query: "skills" },
+        { text: "⏱ 1 Month Notice", query: "notice period" },
+        { text: "🌟 Why Hire Ram?", query: "why hire ram" },
+        { text: "🚀 Key Projects", query: "projects" },
+        { text: "💰 CTC & Salary", query: "salary" },
+        { text: "🎓 Education", query: "education" },
+        { text: "📄 Resume", action: "resume" },
+        { text: "📬 Contact", query: "contact" }
+      ]
+    });
+  }
+
+  // Open / Close Chatbot Widget
+  function openChatWidget() {
+    chatWidget.classList.add("active");
+    chatTriggerBtn.classList.add("active");
+    chatWidget.setAttribute("aria-hidden", "false");
+
+    if (chatMessages.children.length === 0) {
+      renderWelcomeMessage();
+    } else {
+      scrollToBottom();
+    }
+
+    // Auto-focus input on desktop
+    if (window.innerWidth > 600 && chatInput) {
+      setTimeout(() => chatInput.focus(), 250);
+    }
+  }
+
+  function closeChatWidget() {
+    chatWidget.classList.remove("active");
+    chatTriggerBtn.classList.remove("active");
+    chatWidget.setAttribute("aria-hidden", "true");
+  }
+
+  function toggleChatWidget() {
+    if (chatWidget.classList.contains("active")) {
+      closeChatWidget();
+    } else {
+      openChatWidget();
+    }
+  }
+
+  // Event Listeners
+  chatTriggerBtn.addEventListener("click", toggleChatWidget);
+  chatCloseBtn.addEventListener("click", closeChatWidget);
+
+  chatClearBtn.addEventListener("click", () => {
+    try {
+      sessionStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {}
+    renderWelcomeMessage();
+  });
+
+  // Form submit
+  chatForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (chatInput) {
+      handleUserSubmit(chatInput.value);
+    }
+  });
+
+  // Quick Chips Click Handler
+  quickChips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const query = chip.getAttribute("data-query") || chip.textContent.trim();
+      if (query === "resume" && typeof openResumeModal === "function") {
+        openResumeModal();
+      } else {
+        handleUserSubmit(query);
+      }
+    });
+  });
+
+  // Close on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && chatWidget.classList.contains("active")) {
+      closeChatWidget();
+    }
+  });
+
+  // Always reset chatbot to clean fresh welcome state on every page load/refresh
+  try {
+    sessionStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(STORAGE_KEY);
+  } catch (e) {}
+  renderWelcomeMessage();
+})();
+
 

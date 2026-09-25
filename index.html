@@ -66,33 +66,81 @@
   </head>
   <body>
     <div id="menu-overlay"></div>
+
+    <!-- Sleek Minimal Top Navigation Bar -->
+    <header id="navbar" class="main-navbar">
+      <div class="container nav-container">
+        <a href="#header" class="logo-link" aria-label="Ram Pujan Pandit Home">
+          <img src="logo.png" class="logo" alt="Ram Pujan Pandit Logo" />
+        </a>
+        <div class="nav-right-actions">
+          <a href="https://drive.google.com/file/d/1MBYkY-qhFyDPsbzaraZ-mZr42jY9S51U/view?usp=sharing" target="_blank" class="nav-quick-resume-btn" aria-label="View Resume">
+            <i class="fa-solid fa-file-arrow-down"></i>
+            <span>Resume</span>
+          </a>
+          <button type="button" id="sidenav-toggle-btn" class="sidenav-toggle-btn" aria-label="Open Navigation Menu">
+            <span class="sidenav-hamburger">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <span class="sidenav-toggle-label">Menu</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Slide-Out Side Navigation Drawer -->
+    <aside id="sidemenu" class="side-nav-drawer" aria-hidden="true">
+      <div class="sidenav-header">
+        <div class="sidenav-brand-info">
+          <img src="logo.png" alt="Ram Logo" class="sidenav-avatar" />
+          <div class="sidenav-brand-text">
+            <h4>Ram Pujan Pandit</h4>
+            <p>Backend & Cloud Engineer</p>
+          </div>
+        </div>
+        <button type="button" id="close-menu-btn" class="sidemenu-close-btn" aria-label="Close navigation menu">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="sidenav-body">
+        <div class="sidenav-group-title">Navigation</div>
+        <ul class="sidenav-links">
+          <li><a href="#header"><i class="fa-solid fa-house"></i> <span>Home</span></a></li>
+          <li><a href="#about"><i class="fa-solid fa-user"></i> <span>About</span></a></li>
+          <li><a href="#services"><i class="fa-solid fa-briefcase"></i> <span>Services</span></a></li>
+          <li><a href="#portfolio"><i class="fa-solid fa-folder-open"></i> <span>Portfolio</span></a></li>
+          <li><a href="#contact"><i class="fa-solid fa-paper-plane"></i> <span>Contact</span></a></li>
+        </ul>
+
+        <div class="sidenav-group-title">Engineering Sandbox</div>
+        <ul class="sidenav-links">
+          <li><a href="#api-explorer"><i class="fa-solid fa-terminal"></i> <span>API Sandbox</span></a></li>
+          <li><a href="#code-patterns"><i class="fa-solid fa-code"></i> <span>Code Patterns</span></a></li>
+          <li><a href="#database-erd"><i class="fa-solid fa-database"></i> <span>DB Schemas</span></a></li>
+          <li><a href="#benchmark-matrix"><i class="fa-solid fa-chart-line"></i> <span>Benchmarks</span></a></li>
+          <li><a href="#scale-calculator"><i class="fa-solid fa-calculator"></i> <span>Sizing Calc</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidenav-footer">
+        <a href="https://drive.google.com/file/d/1MBYkY-qhFyDPsbzaraZ-mZr42jY9S51U/view?usp=sharing" target="_blank" class="sidenav-resume-cta">
+          <i class="fa-solid fa-file-arrow-down"></i> <span>Download Full Resume</span>
+        </a>
+        <div class="sidenav-contact-mini">
+          <a href="mailto:rpp1508@gmail.com" title="Email Ram"><i class="fa-solid fa-envelope"></i></a>
+          <a href="tel:+919113392885" title="Call Ram"><i class="fa-solid fa-phone"></i></a>
+          <a href="https://www.linkedin.com/in/ram-pujan-pandit-28a11520b/" target="_blank" title="LinkedIn Profile"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="https://github.com/rampujan9113" target="_blank" title="GitHub Profile"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+    </aside>
+
     <div id="header">
       <canvas id="hero-3d-canvas"></canvas>
-      <div class="container">
-        <nav>
-          <a href="#header" class="logo-link">
-            <img src="logo.png" class="logo" alt="Ram Pujan Pandit Logo" />
-          </a>
-          <ul id="sidemenu">
-            <li><a href="#header"><i class="fa-solid fa-house"></i> Home</a></li>
-            <li><a href="#about"><i class="fa-solid fa-user"></i> About</a></li>
-            <li><a href="#services"><i class="fa-solid fa-briefcase"></i> Services</a></li>
-            <li><a href="#portfolio"><i class="fa-solid fa-folder-open"></i> Portfolio</a></li>
-            <li><a href="#api-explorer"><i class="fa-solid fa-terminal"></i> API Sandbox</a></li>
-            <li><a href="#code-patterns"><i class="fa-solid fa-code"></i> Code Patterns</a></li>
-            <li><a href="#database-erd"><i class="fa-solid fa-database"></i> DB Schemas</a></li>
-            <li><a href="#benchmark-matrix"><i class="fa-solid fa-chart-line"></i> Benchmarks</a></li>
-            <li><a href="#scale-calculator"><i class="fa-solid fa-calculator"></i> Sizing Calc</a></li>
-            <li><a href="#contact"><i class="fa-solid fa-paper-plane"></i> Contact</a></li>
-            <li>
-              <a href="https://drive.google.com/file/d/1MBYkY-qhFyDPsbzaraZ-mZr42jY9S51U/view?usp=sharing" target="_blank" class="nav-resume-btn">
-                <i class="fa-solid fa-file-arrow-down"></i> Resume
-              </a>
-            </li>
-            <i class="fa-solid fa-xmark"></i>
-          </ul>
-          <i class="fa-solid fa-bars"></i>
-        </nav>
+      <div class="container hero-container">
         <div class="header-text">
           <p class="role-badge">I am a <span class="typing-text"></span></p>
           <h1>
@@ -1109,6 +1157,80 @@
             <span class="cli-prompt">rpp@enterprise:~$</span>
             <input type="text" id="cli-input" placeholder="Type a command..." autocomplete="off" spellcheck="false" />
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating AI Chatbot Trigger Button -->
+    <button id="ai-chat-trigger" class="ai-chat-floating-btn" title="Chat with Ram's AI Assistant" aria-label="Chat with Ram's AI Assistant">
+      <span class="ai-pulse-ring"></span>
+      <span class="ai-online-status"></span>
+      <div class="ai-btn-icon-wrapper">
+        <i class="fa-solid fa-wand-magic-sparkles ai-icon"></i>
+        <i class="fa-solid fa-xmark ai-close-icon"></i>
+      </div>
+      <span class="ai-btn-label">Ask Ram's AI</span>
+    </button>
+
+    <!-- Smart In-Browser AI Chatbot Widget -->
+    <div id="ai-chat-widget" class="ai-chat-widget-container" aria-hidden="true">
+      <div class="ai-chat-header">
+        <div class="ai-chat-header-info">
+          <div class="ai-chat-avatar-wrapper">
+            <img src="logo.png" alt="Ram AI" class="ai-chat-avatar" />
+            <span class="ai-avatar-badge"></span>
+          </div>
+          <div class="ai-chat-header-text">
+            <div class="ai-header-title-row">
+              <h4>Ram's AI Assistant</h4>
+              <span class="ai-chip-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> </span>
+            </div>
+            <p><i class="fa-solid fa-circle ai-dot-indicator"></i> Active &bull; Ready to help</p>
+          </div>
+        </div>
+        <div class="ai-chat-header-actions">
+          <button id="ai-chat-clear" class="ai-header-btn" title="Clear chat history" aria-label="Clear chat history">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+          <button id="ai-chat-close" class="ai-header-btn" title="Close chat" aria-label="Close chat">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="ai-chat-body" id="ai-chat-body">
+        <div class="ai-chat-messages" id="ai-chat-messages">
+          <!-- Dynamically populated messages -->
+        </div>
+      </div>
+
+      <div class="ai-chat-footer">
+        <div class="ai-quick-chips-wrapper" id="ai-quick-chips">
+          <button type="button" class="ai-chip" data-query="experience"><i class="fa-solid fa-briefcase"></i> Experience</button>
+          <button type="button" class="ai-chip" data-query="skills"><i class="fa-solid fa-code"></i> Tech Stack</button>
+          <button type="button" class="ai-chip" data-query="notice period"><i class="fa-solid fa-clock"></i> 1 Month Notice</button>
+          <button type="button" class="ai-chip" data-query="why hire ram"><i class="fa-solid fa-star"></i> Why Hire Ram?</button>
+          <button type="button" class="ai-chip" data-query="projects"><i class="fa-solid fa-rocket"></i> Projects</button>
+          <button type="button" class="ai-chip" data-query="salary"><i class="fa-solid fa-coins"></i> CTC & Salary</button>
+          <button type="button" class="ai-chip" data-query="education"><i class="fa-solid fa-graduation-cap"></i> Education</button>
+          <button type="button" class="ai-chip" data-query="scalability"><i class="fa-solid fa-bolt"></i> Scalability</button>
+          <button type="button" class="ai-chip" data-query="resume"><i class="fa-solid fa-file-pdf"></i> Resume</button>
+          <button type="button" class="ai-chip" data-query="contact"><i class="fa-solid fa-paper-plane"></i> Contact</button>
+        </div>
+        <form id="ai-chat-form" class="ai-chat-input-area">
+          <input
+            type="text"
+            id="ai-chat-input"
+            placeholder="Ask about Java, GCP, Projects, Experience..."
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button type="submit" id="ai-chat-send" class="ai-chat-send-btn" aria-label="Send message" title="Send message">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </form>
+        <div class="ai-footer-note">
+          <span><i class="fa-solid fa-wand-magic-sparkles"></i> Powered by Ram's AI Brain</span>
         </div>
       </div>
     </div>
