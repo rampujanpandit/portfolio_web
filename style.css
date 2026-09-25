@@ -1,7 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "SF Pro", "Poppins", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   box-sizing: border-box;
 }
 
@@ -15,6 +15,9 @@ body {
   color: #fff;
   overflow-x: hidden;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -1786,8 +1789,9 @@ form textarea:focus {
 
 #back-to-top {
   position: fixed;
-  bottom: 145px;
-  right: 25px;
+  bottom: calc(25px + env(safe-area-inset-bottom, 0px));
+  left: 25px;
+  right: auto;
   width: 44px;
   height: 44px;
   background: #ff004f;
@@ -3129,7 +3133,7 @@ button {
 /* ================================================================== */
 .cli-floating-btn {
   position: fixed;
-  bottom: 85px;
+  bottom: calc(85px + env(safe-area-inset-bottom, 0px));
   right: 25px;
   background: #141724;
   border: 1px solid #ff004f;
@@ -3282,7 +3286,7 @@ button {
 /* ================================================================== */
 .ai-chat-floating-btn {
   position: fixed;
-  bottom: 25px;
+  bottom: calc(25px + env(safe-area-inset-bottom, 0px));
   right: 25px;
   background: linear-gradient(135deg, #131625 0%, #1f233a 100%);
   border: 1.5px solid #ff004f;
@@ -3937,7 +3941,7 @@ button {
   }
 
   .ai-chat-floating-btn {
-    bottom: 20px;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     right: 18px;
     padding: 8px 14px;
     font-size: 12px;
@@ -3945,15 +3949,16 @@ button {
   }
 
   .cli-floating-btn {
-    bottom: 74px;
+    bottom: calc(68px + env(safe-area-inset-bottom, 0px));
     right: 18px;
     padding: 8px 14px;
     font-size: 12px;
   }
 
   #back-to-top {
-    bottom: 128px;
-    right: 18px;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    left: 18px;
+    right: auto;
     width: 38px;
     height: 38px;
     font-size: 15px;
