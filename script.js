@@ -2708,6 +2708,14 @@ Ask me anything about Ram Pujan Pandit's <strong>Java 17/21</strong> & <strong>S
     chatTriggerBtn.classList.add("active");
     chatWidget.setAttribute("aria-hidden", "false");
 
+    if (window.innerWidth <= 600) {
+      document.body.style.overflow = "hidden";
+      const cliBtn = document.querySelector(".cli-floating-btn");
+      const topBtn = document.getElementById("back-to-top");
+      if (cliBtn) cliBtn.style.display = "none";
+      if (topBtn) topBtn.style.display = "none";
+    }
+
     if (chatMessages.children.length === 0) {
       renderWelcomeMessage();
     } else {
@@ -2724,6 +2732,14 @@ Ask me anything about Ram Pujan Pandit's <strong>Java 17/21</strong> & <strong>S
     chatWidget.classList.remove("active");
     chatTriggerBtn.classList.remove("active");
     chatWidget.setAttribute("aria-hidden", "true");
+
+    if (window.innerWidth <= 600) {
+      document.body.style.overflow = "auto";
+      const cliBtn = document.querySelector(".cli-floating-btn");
+      const topBtn = document.getElementById("back-to-top");
+      if (cliBtn) cliBtn.style.display = "";
+      if (topBtn) topBtn.style.display = "";
+    }
   }
 
   function toggleChatWidget() {
